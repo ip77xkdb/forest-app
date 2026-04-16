@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -50,12 +49,30 @@ const data = rawData as AppRecord[];
 
 const operatorOptions = ["전체", "국립", "공립"];
 const facilityOptions = ["전체", "자연휴양림", "생태탐방원", "캠핑장", "야영장"];
-const zoneOptions = ["전체", "서울/인천/경기", "강원", "충북", "대전/충남", "전북", "광주/전남", "대구/경북", "부산/경남", "제주", "공통"];
+const zoneOptions = [
+  "전체",
+  "서울/인천/경기",
+  "강원",
+  "충북",
+  "대전/충남",
+  "전북",
+  "광주/전남",
+  "대구/경북",
+  "부산/경남",
+  "제주",
+  "공통",
+];
 const sortOptions = ["이름순", "권역순"] as const;
 const tabOptions: ViewTab[] = ["캘린더", "타임라인", "숙소검색"];
 type SortOption = (typeof sortOptions)[number];
 type EventFilterOption = "전체" | EventType;
-const eventFilterOptions: EventFilterOption[] = ["전체", "선착순", "추첨접수", "추첨발표", "미결제/대기예약"];
+const eventFilterOptions: EventFilterOption[] = [
+  "전체",
+  "선착순",
+  "추첨접수",
+  "추첨발표",
+  "미결제/대기예약",
+];
 
 const weekdayMap: Record<string, number> = {
   일: 0,
@@ -80,30 +97,8 @@ const zoneOrder = [
   "공통",
 ];
 
-function chipStyle(active: boolean, strong = false) {
-  return {
-    padding: "8px 14px",
-    borderRadius: "999px",
-    border: active ? "1px solid #166534" : "1px solid #d6d3d1",
-    background: active ? (strong ? "#166534" : "#eff6ff") : "#ffffff",
-    color: active ? (strong ? "#ffffff" : "#1d4ed8") : "#44403c",
-    cursor: "pointer" as const,
-    fontSize: "14px",
-    fontWeight: 700,
-  };
-}
-
-function tabStyle(active: boolean) {
-  return {
-    padding: "10px 16px",
-    borderRadius: "12px",
-    border: active ? "1px solid #166534" : "1px solid #e7e5e4",
-    background: active ? "#166534" : "#ffffff",
-    color: active ? "#ffffff" : "#44403c",
-    cursor: "pointer" as const,
-    fontSize: "14px",
-    fontWeight: 800,
-  };
+function cx(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
 }
 
 function pad2(n: number) {
@@ -177,7 +172,12 @@ function getAllWeekdaysInMonth(year: number, monthIndex: number, weekday: number
   return result;
 }
 
-function getWeekdaysAfterDayInMonth(year: number, monthIndex: number, weekday: number, dayThreshold: number) {
+function getWeekdaysAfterDayInMonth(
+  year: number,
+  monthIndex: number,
+  weekday: number,
+  dayThreshold: number
+) {
   return getAllWeekdaysInMonth(year, monthIndex, weekday).filter((d) => d.getDate() > dayThreshold);
 }
 
@@ -265,7 +265,11 @@ function parsePeriodFromText(
   return null;
 }
 
-function generateDatesFromRule(ruleText: string, year: number, monthIndex: number): { date: string; time: string }[] {
+function generateDatesFromRule(
+  ruleText: string,
+  year: number,
+  monthIndex: number
+): { date: string; time: string }[] {
   const normalized = normalizeRuleText(ruleText);
   const time = parseTime(normalized);
   const month = monthIndex + 1;
@@ -325,13 +329,6 @@ function summarizeZones(items: CalendarEvent[]) {
     .sort((a, b) => b[1] - a[1])
     .map(([zone, count]) => `${zone} ${count}`)
     .join(" · ");
-}
-
-function sampleNames(items: CalendarEvent[]) {
-  const names = [...new Set(items.map((item) => item.name))];
-  const preview = names.slice(0, 3).join(" · ");
-  const remain = names.length - 3;
-  return remain > 0 ? `${preview} 외 ${remain}곳` : preview;
 }
 
 function getMonthMatrix(year: number, monthIndex: number) {
@@ -421,46 +418,27 @@ function sortItems<T extends { zone?: string; name?: string; region?: string }>(
   });
 }
 
-function getOperatorChipStyle(operatorType: string) {
+function getOperatorBadgeClass(operatorType: string) {
   if (operatorType === "국립") {
-    return {
-      background: "#dbeafe",
-      color: "#1d4ed8",
-    };
+    return "bg-sky-50 text-sky-700 ring-1 ring-sky-200";
   }
-  return {
-    background: "#dcfce7",
-    color: "#166534",
-  };
+  return "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200";
 }
 
-function getEventTypeChipStyle(eventType: EventType) {
+function getEventTypeBadgeClass(eventType: EventType) {
+  if (eventType === "선착순") {
+    return "bg-sky-50 text-sky-700 ring-1 ring-sky-200";
+  }
   if (eventType === "추첨접수") {
-    return {
-      background: "#fef3c7",
-      color: "#b45309",
-      border: "1px solid #fcd34d",
-    };
+    return "bg-amber-50 text-amber-700 ring-1 ring-amber-200";
   }
   if (eventType === "추첨발표") {
-    return {
-      background: "#ede9fe",
-      color: "#6d28d9",
-      border: "1px solid #c4b5fd",
-    };
+    return "bg-violet-50 text-violet-700 ring-1 ring-violet-200";
   }
   if (eventType === "미결제/대기예약") {
-    return {
-      background: "#fee2e2",
-      color: "#b91c1c",
-      border: "1px solid #fca5a5",
-    };
+    return "bg-rose-50 text-rose-700 ring-1 ring-rose-200";
   }
-  return {
-    background: "#ffffff",
-    color: "#44403c",
-    border: "1px solid #d6d3d1",
-  };
+  return "bg-stone-100 text-stone-700 ring-1 ring-stone-200";
 }
 
 function buildEventsForItem(item: AppRecord, year: number, monthIndex: number): CalendarEvent[] {
@@ -579,6 +557,93 @@ function getDateLabel(dateKey: string) {
   return `${d.getMonth() + 1}월 ${d.getDate()}일 (${weekday})`;
 }
 
+function ChipButton({
+  active,
+  children,
+  onClick,
+  strong = false,
+}: {
+  active: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
+  strong?: boolean;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={cx(
+        "rounded-full border px-2.5 py-1 text-xs font-medium transition",
+        strong
+          ? active
+            ? "border-emerald-700 bg-emerald-700 text-white"
+            : "border-stone-200 bg-white text-stone-600 hover:bg-stone-50"
+          : active
+          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+          : "border-stone-200 bg-white text-stone-600 hover:bg-stone-50"
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+function TabButton({
+  active,
+  children,
+  onClick,
+}: {
+  active: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={cx(
+        "rounded-xl border px-4 py-2 text-sm font-semibold transition",
+        active
+          ? "border-emerald-700 bg-emerald-700 text-white shadow-sm"
+          : "border-stone-200 bg-white text-stone-700 hover:bg-stone-50"
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+function Badge({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <span
+      className={cx(
+        "inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold",
+        className
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
+function SectionCard({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cx("rounded-2xl border border-stone-200 bg-white shadow-sm", className)}>
+      {children}
+    </div>
+  );
+}
+
 export default function Home() {
   const now = new Date();
   const [viewYear, setViewYear] = useState(now.getFullYear());
@@ -598,8 +663,8 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const now = new Date();
-    setTodayKey(formatDateKey(now));
+    const current = new Date();
+    setTodayKey(formatDateKey(current));
     setIsClient(true);
   }, []);
 
@@ -618,8 +683,7 @@ export default function Home() {
         facilityTypeText === selectedFacilityText ||
         facilityTypeText.includes(selectedFacilityText);
 
-      const matchesZone =
-        selectedZone === "전체" || item.zone === selectedZone;
+      const matchesZone = selectedZone === "전체" || item.zone === selectedZone;
 
       const haystack = [
         item.name,
@@ -656,11 +720,38 @@ export default function Home() {
 
   const eventCountByDate = useMemo(() => {
     const map: Record<string, number> = {};
-    visibleEvents.forEach((e) => {
+    calendarEvents.forEach((e) => {
       map[e.eventDate] = (map[e.eventDate] || 0) + 1;
     });
     return map;
-  }, [visibleEvents]);
+  }, [calendarEvents]);
+
+const eventTypeCountByDate = useMemo(() => {
+  const map: Record<
+    string,
+    {
+      선착순: number;
+      추첨접수: number;
+      추첨발표: number;
+      "미결제/대기예약": number;
+    }
+  > = {};
+
+  visibleEvents.forEach((e) => {
+    if (!map[e.eventDate]) {
+      map[e.eventDate] = {
+        선착순: 0,
+        추첨접수: 0,
+        추첨발표: 0,
+        "미결제/대기예약": 0,
+      };
+    }
+
+    map[e.eventDate][e.eventType] += 1;
+  });
+
+  return map;
+}, [visibleEvents]);
 
   const eventsForSelectedDate = useMemo(() => {
     if (!selectedDate) return [];
@@ -744,7 +835,6 @@ export default function Home() {
   }, [visibleEvents, sortMode, todayKey]);
 
   const searchableItems = useMemo(() => sortItems(filteredRules, sortMode), [filteredRules, sortMode]);
-
   const monthMatrix = useMemo(() => getMonthMatrix(viewYear, viewMonth), [viewYear, viewMonth]);
   const monthLabel = `${viewYear}년 ${viewMonth + 1}월`;
 
@@ -783,915 +873,493 @@ export default function Home() {
   if (!isClient) return null;
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "#f8f7f4",
-        color: "#292524",
-        padding: "24px",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      <div style={{ maxWidth: "1180px", margin: "0 auto" }}>
-        <div
-          style={{
-            background: "#ffffff",
-            border: "1px solid #e7e5e4",
-            borderRadius: "24px",
-            padding: "20px",
-            marginBottom: "24px",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: "16px",
-              flexWrap: "wrap",
-              marginBottom: "16px",
-            }}
-          >
-            <div>
-              <h1 style={{ margin: 0, fontSize: "32px" }}>숙소 예약 오픈 캘린더</h1>
-              <p style={{ margin: "8px 0 0", color: "#78716c" }}>
-                자연휴양림 · 캠핑장 · 공공숙소 예약 일정을 한눈에 확인
-              </p>
-            </div>
-            <div style={{ color: "#57534e", fontWeight: 700 }}>
-              {monthLabel} · {visibleEvents.length}개 일정
-            </div>
-          </div>
-
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "16px" }}>
-            {tabOptions.map((tab) => (
-              <button key={tab} onClick={() => setActiveTab(tab)} style={tabStyle(activeTab === tab)}>
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          <div style={{ display: "grid", gap: "12px", marginBottom: "18px" }}>
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="시설명, 지역, 권역, 규칙 검색"
-              style={{
-                width: "100%",
-                padding: "12px 14px",
-                borderRadius: "14px",
-                border: "1px solid #d6d3d1",
-                fontSize: "14px",
-                outline: "none",
-              }}
-            />
-
-            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-              <span style={{ fontWeight: 700, marginRight: "4px" }}>빠른필터</span>
-              {eventFilterOptions.map((type) => (
-                <button
-                  key={type}
-                  onClick={() => {
-                    setSelectedEventFilter(type);
-                    setSelectedDate(null);
-                    setSelectedGroupKey(null);
-                    setIsModalOpen(false);
-                  }}
-                  style={chipStyle(selectedEventFilter === type, false)}
-                >
-                  {type === "추첨접수" ? "추첨접수" : type === "미결제/대기예약" ? "미결제/대기" : type}
-                </button>
-              ))}
-            </div>
-
-            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-              <span style={{ fontWeight: 700, marginRight: "4px" }}>운영주체</span>
-              {operatorOptions.map((type) => (
-                <button
-                  key={type}
-                  onClick={() => {
-                    setSelectedOperator(type);
-                    setSelectedDate(null);
-                    setSelectedGroupKey(null);
-                    setIsModalOpen(false);
-                  }}
-                  style={chipStyle(selectedOperator === type, true)}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-
-            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-              <span style={{ fontWeight: 700, marginRight: "4px" }}>시설유형</span>
-              {facilityOptions.map((type) => (
-                <button
-                  key={type}
-                  onClick={() => {
-                    setSelectedFacility(type);
-                    setSelectedDate(null);
-                    setSelectedGroupKey(null);
-                    setIsModalOpen(false);
-                  }}
-                  style={chipStyle(selectedFacility === type, false)}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-
-            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-              <span style={{ fontWeight: 700, marginRight: "4px" }}>권역</span>
-              {zoneOptions.map((type) => (
-                <button
-                  key={type}
-                  onClick={() => {
-                    setSelectedZone(type);
-                    setSelectedDate(null);
-                    setSelectedGroupKey(null);
-                    setIsModalOpen(false);
-                  }}
-                  style={chipStyle(selectedZone === type, false)}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-
-            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-              <span style={{ fontWeight: 700, marginRight: "4px" }}>정렬</span>
-              {sortOptions.map((type) => (
-                <button key={type} onClick={() => setSortMode(type)} style={chipStyle(sortMode === type, false)}>
-                  {type}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {activeTab === "캘린더" && (
-            <div
-              style={{
-                borderTop: "1px solid #eee7df",
-                paddingTop: "14px",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "12px",
-                  marginBottom: "14px",
-                }}
-              >
-                <button
-                  onClick={() => moveMonth(-1)}
-                  style={{
-                    border: "1px solid #e7e5e4",
-                    background: "#ffffff",
-                    cursor: "pointer",
-                    fontSize: "18px",
-                    color: "#57534e",
-                    borderRadius: "12px",
-                    width: "40px",
-                    height: "40px",
-                    flexShrink: 0,
-                  }}
-                >
-                  ‹
-                </button>
-
-                <div style={{ fontSize: "30px", fontWeight: 800 }}>{monthLabel}</div>
-
-                <button
-                  onClick={() => moveMonth(1)}
-                  style={{
-                    border: "1px solid #e7e5e4",
-                    background: "#ffffff",
-                    cursor: "pointer",
-                    fontSize: "18px",
-                    color: "#57534e",
-                    borderRadius: "12px",
-                    width: "40px",
-                    height: "40px",
-                    flexShrink: 0,
-                  }}
-                >
-                  ›
-                </button>
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(7, 1fr)",
-                  gap: "0",
-                  borderTop: "1px solid #eee7df",
-                  borderLeft: "1px solid #eee7df",
-                }}
-              >
-                {["일", "월", "화", "수", "목", "금", "토"].map((day, i) => (
-                  <div
-                    key={day}
-                    style={{
-                      padding: "10px 8px",
-                      textAlign: "center",
-                      fontWeight: 700,
-                      color: i === 0 ? "#ef4444" : i === 6 ? "#2563eb" : "#57534e",
-                      borderRight: "1px solid #eee7df",
-                      borderBottom: "1px solid #eee7df",
-                      background: "#fcfbf8",
-                    }}
-                  >
-                    {day}
+    <main className="min-h-screen bg-white text-stone-800">
+      <div className="mx-auto max-w-7xl px-4 py-4 md:px-6 md:py-8">
+        <SectionCard className="overflow-hidden h-[1500px]">
+          <div className="flex h-full flex-col">
+            <div className="shrink-0 border-b border-stone-200 px-4 py-5 md:px-6 md:py-6">
+              <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <div className="mb-2 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200">
+                    Forest Booking Dashboard
                   </div>
+                  <h1 className="text-2xl font-semibold tracking-tight text-stone-900 md:text-3xl">
+                    숙소 예약 오픈 캘린더
+                  </h1>
+                  <p className="mt-2 text-sm text-stone-500 md:text-base">
+                    자연휴양림 · 캠핑장 · 공공숙소 예약 일정을 한눈에 확인하세요.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl bg-stone-100 px-4 py-3 text-sm font-semibold text-stone-700">
+                  {monthLabel} · {visibleEvents.length}개 일정
+                </div>
+              </div>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                {tabOptions.map((tab) => (
+                  <TabButton key={tab} active={activeTab === tab} onClick={() => setActiveTab(tab)}>
+                    {tab}
+                  </TabButton>
                 ))}
+              </div>
+            </div>
 
-                {monthMatrix.flat().map((date) => {
-                  const inMonth = date.getMonth() === viewMonth;
-                  const key = formatDateKey(date);
-                  const count = eventCountByDate[key] || 0;
-                  const isSelected = selectedDate === key;
+            <div className="flex min-h-0 flex-1 flex-col px-4 py-5 md:px-6 md:py-6">
+              <div className="shrink-0 min-h-[230px] grid gap-4 rounded-2xl bg-stone-50/40 p-4 md:min-h-[250px] md:p-5">
+                <div className="relative">
+                  <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="시설명, 지역, 권역, 규칙 검색"
+                    className="h-12 w-full rounded-2xl border border-stone-200 bg-white px-4 pr-12 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+                  />
+                  <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-stone-400">
+                    ⌕
+                  </span>
+                </div>
 
-                  return (
-                    <button
-                      key={key}
+                <div className="grid gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="min-w-[56px] text-sm font-medium text-stone-500">빠른필터</span>
+                  {eventFilterOptions.map((type) => (
+                    <ChipButton
+                      key={type}
+                      active={selectedEventFilter === type}
                       onClick={() => {
-                        if (!inMonth) return;
-                        openDateModal(key);
-                      }}
-                      style={{
-                        minHeight: "110px",
-                        border: "none",
-                        borderRight: "1px solid #eee7df",
-                        borderBottom: "1px solid #eee7df",
-                        background: isSelected ? "#eff6ff" : inMonth ? "#ffffff" : "#f5f5f4",
-                        padding: "10px",
-                        textAlign: "left",
-                        cursor: inMonth ? "pointer" : "default",
-                        position: "relative",
+                        setSelectedEventFilter(type);
+                        setSelectedDate(null);
+                        setSelectedGroupKey(null);
+                        setIsModalOpen(false);
                       }}
                     >
-                      <div
-                        style={{
-                          fontSize: "18px",
-                          fontWeight: isSelected ? 800 : 500,
-                          color: inMonth ? "#292524" : "#a8a29e",
-                        }}
-                      >
-                        {date.getDate()}
-                      </div>
-
-                      {count > 0 && (
-                        <div
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            bottom: "10px",
-                            background: "#d9f5dd",
-                            color: "#166534",
-                            borderRadius: "999px",
-                            padding: "4px 8px",
-                            fontSize: "12px",
-                            fontWeight: 700,
-                          }}
-                        >
-                          {count}
-                        </div>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {activeTab === "타임라인" && (
-            <div
-              style={{
-                borderTop: "1px solid #eee7df",
-                paddingTop: "14px",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "12px",
-                  marginBottom: "18px",
-                }}
-              >
-                <button
-                  onClick={() => moveMonth(-1)}
-                  style={{
-                    border: "1px solid #e7e5e4",
-                    background: "#ffffff",
-                    cursor: "pointer",
-                    fontSize: "18px",
-                    color: "#57534e",
-                    borderRadius: "12px",
-                    width: "40px",
-                    height: "40px",
-                  }}
-                >
-                  ‹
-                </button>
-
-                <div style={{ fontSize: "30px", fontWeight: 800 }}>{monthLabel}</div>
-
-                <button
-                  onClick={() => moveMonth(1)}
-                  style={{
-                    border: "1px solid #e7e5e4",
-                    background: "#ffffff",
-                    cursor: "pointer",
-                    fontSize: "18px",
-                    color: "#57534e",
-                    borderRadius: "12px",
-                    width: "40px",
-                    height: "40px",
-                  }}
-                >
-                  ›
-                </button>
-              </div>
-
-              {timelineGroups.length ? (
-                <div style={{ display: "grid", gap: "14px" }}>
-                  {timelineGroups.map((dateGroup) => (
-                    <div
-                      key={dateGroup.date}
-                      onClick={() => openDateModal(dateGroup.date)}
-                      style={{
-                        background: "#fafaf9",
-                        border: "1px solid #e7e5e4",
-                        borderRadius: "18px",
-                        padding: "16px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          gap: "12px",
-                          marginBottom: "14px",
-                          flexWrap: "wrap",
-                        }}
-                      >
-                        <div style={{ fontSize: "20px", fontWeight: 800 }}>{getDateLabel(dateGroup.date)}</div>
-                        <div style={{ color: "#78716c", fontSize: "14px", fontWeight: 700 }}>›</div>
-                      </div>
-
-                      <div style={{ display: "grid", gap: "10px" }}>
-                        {dateGroup.groups.map((group) => {
-                          const operatorChip = getOperatorChipStyle(group.operatorType);
-                          const eventChip = getEventTypeChipStyle(group.eventType);
-
-                          return (
-                            <div
-                              key={group.groupKey}
-                              style={{
-                                background: "#ffffff",
-                                border: "1px solid #ece7df",
-                                borderRadius: "14px",
-                                padding: "12px",
-                              }}
-                            >
-                              <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "8px" }}>
-                                <span
-                                  style={{
-                                    background: "#166534",
-                                    color: "#ffffff",
-                                    borderRadius: "999px",
-                                    padding: "4px 8px",
-                                    fontSize: "12px",
-                                    fontWeight: 700,
-                                  }}
-                                >
-                                  {group.eventTime}
-                                </span>
-                                <span
-                                  style={{
-                                    background: operatorChip.background,
-                                    color: operatorChip.color,
-                                    borderRadius: "999px",
-                                    padding: "4px 8px",
-                                    fontSize: "12px",
-                                    fontWeight: 700,
-                                  }}
-                                >
-                                  {group.operatorType}
-                                </span>
-                                <span
-                                  style={{
-                                    background: eventChip.background,
-                                    color: eventChip.color,
-                                    border: eventChip.border,
-                                    borderRadius: "999px",
-                                    padding: "4px 8px",
-                                    fontSize: "12px",
-                                    fontWeight: 700,
-                                  }}
-                                >
-                                  {getEventTypeLabel(group.eventType)}
-                                </span>
-                              </div>
-
-                              <div style={{ fontWeight: 700, fontSize: "15px", marginBottom: "6px" }}>
-                                {group.items.length}개 시설
-                              </div>
-                              <div style={{ color: "#78716c", fontSize: "13px" }}>
-                                {summarizeZones(group.items)}
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
+                      {type === "미결제/대기예약" ? "미결제/대기" : type}
+                    </ChipButton>
                   ))}
                 </div>
-              ) : (
-                <div
-                  style={{
-                    background: "#fff",
-                    border: "1px dashed #d6d3d1",
-                    borderRadius: "24px",
-                    padding: "40px",
-                    textAlign: "center",
-                    color: "#78716c",
-                  }}
-                >
-                  이번 달에는 표시할 일정이 없습니다.
-                </div>
-              )}
-            </div>
-          )}
 
-          {activeTab === "숙소검색" && (
-            <div
-              style={{
-                borderTop: "1px solid #eee7df",
-                paddingTop: "14px",
-              }}
-            >
-              <div style={{ color: "#78716c", marginBottom: "16px" }}>
-                검색어와 필터에 맞는 숙소를 시설 중심으로 확인할 수 있습니다.
-              </div>
-
-              {searchableItems.length ? (
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                    gap: "12px",
-                  }}
-                >
-                  {searchableItems.map((item) => (
-                    <div
-                      key={item.id}
-                      style={{
-                        background: "#fafaf9",
-                        border: "1px solid #e7e5e4",
-                        borderRadius: "18px",
-                        padding: "16px",
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="min-w-[56px] text-sm font-medium text-stone-500">운영주체</span>
+                  {operatorOptions.map((type) => (
+                    <ChipButton
+                      key={type}
+                      strong
+                      active={selectedOperator === type}
+                      onClick={() => {
+                        setSelectedOperator(type);
+                        setSelectedDate(null);
+                        setSelectedGroupKey(null);
+                        setIsModalOpen(false);
                       }}
                     >
-                      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "10px" }}>
-                        <span
-                          style={{
-                            background: "#eef2ff",
-                            color: "#4338ca",
-                            borderRadius: "999px",
-                            padding: "5px 9px",
-                            fontSize: "12px",
-                            fontWeight: 700,
-                          }}
-                        >
-                          {item.zone}
-                        </span>
-                        <span
-                          style={{
-                            background: "#e7f7ea",
-                            color: "#166534",
-                            borderRadius: "999px",
-                            padding: "5px 9px",
-                            fontSize: "12px",
-                            fontWeight: 700,
-                          }}
-                        >
-                          {item.region}
-                        </span>
-                      </div>
-
-                      <div style={{ fontWeight: 800, fontSize: "18px", marginBottom: "8px" }}>{item.name}</div>
-                      <div style={{ color: "#57534e", fontSize: "14px", marginBottom: "10px" }}>
-                        {item.facilityType} · {item.operatorType}
-                      </div>
-
-                      <div style={{ display: "grid", gap: "6px", marginBottom: "10px" }}>
-                        {getRuleSummary(item).map((line) => (
-                          <div key={line} style={{ fontSize: "13px", color: "#1f2937", lineHeight: 1.5 }}>
-                            {line}
-                          </div>
-                        ))}
-                      </div>
-
-                      {item.lotteryTarget ? (
-                        <div style={{ color: "#78716c", fontSize: "13px", marginBottom: "6px", lineHeight: 1.5 }}>
-                          추첨대상 · {item.lotteryTarget}
-                        </div>
-                      ) : null}
-
-                      {item.note ? (
-                        <div style={{ color: "#78716c", fontSize: "13px", marginBottom: item.homepage ? "8px" : "0" }}>
-                          비고 · {item.note}
-                        </div>
-                      ) : null}
-
-                      {item.homepage ? (
-                        <a
-                          href={item.homepage}
-                          target="_blank"
-                          rel="noreferrer"
-                          style={{ color: "#2563eb", fontSize: "13px" }}
-                        >
-                          홈페이지 바로가기
-                        </a>
-                      ) : null}
-                    </div>
+                      {type}
+                    </ChipButton>
                   ))}
                 </div>
-              ) : (
-                <div
-                  style={{
-                    background: "#fff",
-                    border: "1px dashed #d6d3d1",
-                    borderRadius: "24px",
-                    padding: "40px",
-                    textAlign: "center",
-                    color: "#78716c",
-                  }}
-                >
-                  조건에 맞는 숙소가 없습니다.
-                </div>
-              )}
-            </div>
-          )}
-        </div>
 
-        {isModalOpen && selectedDate && (
-          <div
-            onClick={closeModal}
-            style={{
-              position: "fixed",
-              inset: 0,
-              background: "rgba(0,0,0,0.45)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "20px",
-              zIndex: 1000,
-            }}
-          >
-            <div
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: "min(1200px, 100%)",
-                height: "min(88vh, 900px)",
-                overflow: "hidden",
-                background: "#ffffff",
-                borderRadius: "24px",
-                boxShadow: "0 20px 50px rgba(0,0,0,0.2)",
-                display: "grid",
-                gridTemplateColumns: "320px 1fr",
-                minHeight: 0,
-              }}
-            >
-              <section
-                style={{
-                  borderRight: "1px solid #e7e5e4",
-                  padding: "20px",
-                  overflowY: "auto",
-                  minHeight: 0,
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "flex-start",
-                    gap: "12px",
-                    marginBottom: "16px",
-                  }}
-                >
-                  <div>
-                    <div style={{ fontSize: "22px", fontWeight: 800, marginBottom: "6px" }}>
-                      {selectedDateLabel}
-                    </div>
-                    <div style={{ color: "#78716c" }}>{eventsForSelectedDate.length}개 일정</div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="min-w-[56px] text-sm font-medium text-stone-500">시설유형</span>
+                  {facilityOptions.map((type) => (
+                    <ChipButton
+                      key={type}
+                      active={selectedFacility === type}
+                      onClick={() => {
+                        setSelectedFacility(type);
+                        setSelectedDate(null);
+                        setSelectedGroupKey(null);
+                        setIsModalOpen(false);
+                      }}
+                    >
+                      {type}
+                    </ChipButton>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="min-w-[56px] text-sm font-medium text-stone-500">권역</span>
+                  {zoneOptions.map((type) => (
+                    <ChipButton
+                      key={type}
+                      active={selectedZone === type}
+                      onClick={() => {
+                        setSelectedZone(type);
+                        setSelectedDate(null);
+                        setSelectedGroupKey(null);
+                        setIsModalOpen(false);
+                      }}
+                    >
+                      {type}
+                    </ChipButton>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="min-w-[56px] text-sm font-medium text-stone-500">정렬</span>
+                  {sortOptions.map((type) => (
+                    <ChipButton key={type} active={sortMode === type} onClick={() => setSortMode(type)}>
+                      {type}
+                    </ChipButton>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {activeTab === "캘린더" && (
+              <div className="mt-6 h-[980px] border-t border-stone-200 pt-6">
+                <div className="mb-5 shrink-0 flex items-center justify-center">
+                  <button
+                    onClick={() => moveMonth(-1)}
+                    className="mr-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-stone-400 transition-all duration-200 hover:bg-stone-100 hover:text-stone-900"
+                    aria-label="이전 달"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 18l-6-6 6-6"
+                      />
+                    </svg>
+                  </button>
+
+                  <div className="px-2 text-2xl font-semibold text-stone-900 md:text-3xl">
+                    {monthLabel}
                   </div>
 
                   <button
-                    onClick={closeModal}
-                    style={{
-                      border: "none",
-                      background: "#f5f5f4",
-                      borderRadius: "999px",
-                      width: "40px",
-                      height: "40px",
-                      cursor: "pointer",
-                      fontSize: "20px",
-                      fontWeight: 700,
-                      color: "#57534e",
-                      flexShrink: 0,
-                    }}
+                    onClick={() => moveMonth(1)}
+                    className="ml-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-stone-400 transition-all duration-200 hover:bg-stone-100 hover:text-stone-900"
+                    aria-label="다음 달"
                   >
-                    ×
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 6l6 6-6 6"
+                      />
+                    </svg>
                   </button>
                 </div>
 
-                <div style={{ display: "grid", gap: "10px" }}>
-                  {groupedForSelectedDate.map((group) => {
-                    const active = currentGroup?.groupKey === group.groupKey;
-                    const operatorChip = getOperatorChipStyle(group.operatorType);
-                    const eventChip = getEventTypeChipStyle(group.eventType);
+
+                {/* 🔽 범례 추가 */}
+                <div className="mb-5 shrink-0 flex flex-wrap items-center justify-center gap-2">
+                  <span className="inline-flex rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-bold text-sky-700 ring-1 ring-sky-200">
+                    선착순
+                  </span>
+
+                  <span className="inline-flex rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-bold text-amber-700 ring-1 ring-amber-200">
+                    추첨접수
+                  </span>
+
+                  <span className="inline-flex rounded-full bg-violet-50 px-2 py-0.5 text-[11px] font-bold text-violet-700 ring-1 ring-violet-200">
+                    추첨발표
+                  </span>
+
+                  <span className="inline-flex rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-bold text-rose-700 ring-1 ring-rose-200">
+                    미결제/대기
+                  </span>
+                </div>
+
+                {/* 👉 여기 아래가 캘린더 grid */}
+
+                <div className="mb-2 shrink-0 grid grid-cols-7 gap-1 md:gap-2">
+                  {["일", "월", "화", "수", "목", "금", "토"].map((day, i) => (
+                    <div
+                      key={day}
+                      className={cx(
+                        "rounded-xl bg-stone-100 px-2 py-2 text-center text-xs font-semibold md:text-sm",
+                        i === 0
+                          ? "text-rose-500"
+                          : i === 6
+                          ? "text-blue-600"
+                          : "text-stone-600"
+                      )}
+                    >
+                      {day}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="h-[900px] bg-blue-100 md:h-[1020px]">
+                  <div className="grid h-full grid-cols-7 grid-rows-6 gap-1 bg-red-100 md:gap-2">
+                    {monthMatrix.flat().map((date) => {
+                      const inMonth = date.getMonth() === viewMonth;
+                      const key = formatDateKey(date);
+                      const typeCounts = eventTypeCountByDate[key] || {
+                        선착순: 0,
+                        추첨접수: 0,
+                        추첨발표: 0,
+                        "미결제/대기예약": 0,
+                      };
+
+                    const isSelected = selectedDate === key;
+                    const now = new Date();
+
+                    const isToday =
+                      date.getFullYear() === now.getFullYear() &&
+                      date.getMonth() === now.getMonth() &&
+                      date.getDate() === now.getDate();
 
                     return (
                       <button
-                        key={group.groupKey}
-                        onClick={() => setSelectedGroupKey(group.groupKey)}
-                        style={{
-                          width: "100%",
-                          border: active ? "2px solid #2563eb" : "1px solid #e7e5e4",
-                          background: active ? "#eff6ff" : "#ffffff",
-                          borderRadius: "16px",
-                          padding: "12px",
-                          textAlign: "left",
-                          cursor: "pointer",
+                        key={key}
+                        onClick={() => {
+                          if (!inMonth) return;
+                          openDateModal(key);
                         }}
+                        className={cx(
+                          "group relative flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border px-3 py-3 text-left transition-all duration-200 md:px-4 md:py-4",
+                          inMonth
+                            ? "border-stone-200 bg-white hover:-translate-y-[1px] hover:border-stone-300 hover:bg-stone-50/80 hover:shadow-sm"
+                            : "cursor-default border-stone-100 bg-stone-50/50 text-stone-300",
+                          isToday && "border-emerald-300 bg-emerald-50/50",
+                          isSelected && "border-emerald-500 shadow-[0_0_0_1px_rgba(16,185,129,0.15)]"
+                        )}
                       >
-                        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "8px" }}>
-                          <span
-                            style={{
-                              background: "#166534",
-                              color: "#ffffff",
-                              borderRadius: "999px",
-                              padding: "4px 8px",
-                              fontSize: "12px",
-                              fontWeight: 700,
-                            }}
-                          >
-                            {group.eventTime}
-                          </span>
+                        <div className="grid h-full grid-rows-[auto_84px]">
+                          <div className="flex items-center gap-1.5">
+                            <div
+                              className={cx(
+                                "text-sm font-semibold leading-none md:text-base",
+                                inMonth ? "text-stone-900" : "text-stone-300",
+                                isToday && "text-emerald-700 font-bold",
+                                isSelected && !isToday && inMonth && "text-emerald-700"
+                              )}
+                            >
+                              {date.getDate()}
+                            </div>
 
-                          <span
-                            style={{
-                              background: operatorChip.background,
-                              color: operatorChip.color,
-                              borderRadius: "999px",
-                              padding: "4px 8px",
-                              fontSize: "12px",
-                              fontWeight: 700,
-                            }}
-                          >
-                            {group.operatorType}
-                          </span>
+                            {isToday ? (
+                              <span className="inline-flex items-center rounded-full bg-emerald-600 px-1.5 py-[2px] text-[10px] font-semibold leading-none text-white">
+                                오늘
+                              </span>
+                            ) : null}
+                          </div>
 
-                          <span
-                            style={{
-                              background: eventChip.background,
-                              color: eventChip.color,
-                              border: eventChip.border,
-                              borderRadius: "999px",
-                              padding: "4px 8px",
-                              fontSize: "12px",
-                              fontWeight: 700,
-                            }}
-                          >
-                            {getEventTypeLabel(group.eventType)}
-                          </span>
+                          <div className="grid h-[84px] grid-rows-4 justify-items-end gap-1">
+                            <span
+                              style={{ visibility: typeCounts.선착순 === 0 ? "hidden" : "visible" }}
+                              className="inline-flex h-[18px] min-w-[28px] items-center justify-center rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-medium leading-none text-sky-700"
+                            >
+                              {typeCounts.선착순}
+                            </span>
+
+                            <span
+                              style={{ visibility: typeCounts.추첨접수 === 0 ? "hidden" : "visible" }}
+                              className="inline-flex h-[18px] min-w-[28px] items-center justify-center rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium leading-none text-amber-700"
+                            >
+                              {typeCounts.추첨접수}
+                            </span>
+
+                            <span
+                              style={{ visibility: typeCounts.추첨발표 === 0 ? "hidden" : "visible" }}
+                              className="inline-flex h-[18px] min-w-[28px] items-center justify-center rounded-full bg-violet-50 px-2 py-0.5 text-[11px] font-medium leading-none text-violet-700"
+                            >
+                              {typeCounts.추첨발표}
+                            </span>
+
+                            <span
+                              style={{
+                                visibility:
+                                  typeCounts["미결제/대기예약"] === 0 ? "hidden" : "visible",
+                              }}
+                              className="inline-flex h-[18px] min-w-[28px] items-center justify-center rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-medium leading-none text-rose-700"
+                            >
+                              {typeCounts["미결제/대기예약"]}
+                            </span>
+                          </div>
                         </div>
-
-                        <div style={{ fontWeight: 800, fontSize: "15px", lineHeight: 1.45, marginBottom: "6px" }}>
-                          {group.items.length}개 시설
-                        </div>
-
-                        <div style={{ color: "#78716c", fontSize: "13px" }}>{summarizeZones(group.items)}</div>
                       </button>
                     );
                   })}
                 </div>
-              </section>
+              </div>
+            </div>
+          )}
 
-              <section
-                style={{
-                  padding: "20px",
-                  overflowY: "auto",
-                  minHeight: 0,
-                  background: "#fcfcfb",
-                }}
-              >
-                {currentGroup ? (
-                  <div
-                    style={{
-                      background: "#ffffff",
-                      border: "1px solid #e7e5e4",
-                      borderRadius: "24px",
-                      padding: "20px",
-                      minHeight: 0,
-                    }}
+            {activeTab === "타임라인" && (
+              <div className="mt-6 border-t border-stone-200 pt-6">
+                <div className="mb-5 flex items-center justify-center gap-3">
+                  <button
+                    onClick={() => moveMonth(-1)}
+                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-stone-200 bg-white text-lg text-stone-700 transition hover:bg-stone-50"
+                    aria-label="이전 달"
                   >
-                    <div style={{ marginBottom: "18px" }}>
-                      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }}>
-                        <span
-                          style={{
-                            background: "#166534",
-                            color: "#fff",
-                            borderRadius: "999px",
-                            padding: "6px 10px",
-                            fontSize: "13px",
-                            fontWeight: 700,
-                          }}
+                    ‹
+                  </button>
+
+                  <div className="text-xl font-semibold tracking-tight text-stone-900 md:text-3xl">
+                    {monthLabel}
+                  </div>
+
+                  <button
+                    onClick={() => moveMonth(1)}
+                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-stone-200 bg-white text-lg text-stone-700 transition hover:bg-stone-50"
+                    aria-label="다음 달"
+                  >
+                    ›
+                  </button>
+                </div>
+
+                {timelineGroups.length ? (
+                  <div className="grid gap-4">
+                    {timelineGroups.map((dateGroup) => (
+                      <SectionCard
+                        key={dateGroup.date}
+                        className="cursor-pointer bg-white/60 p-4 transition hover:shadow-md"
+                      >
+                        <button
+                          onClick={() => openDateModal(dateGroup.date)}
+                          className="w-full text-left"
                         >
-                          {currentGroup.eventTime}
-                        </span>
-
-                        <span
-                          style={{
-                            background: getOperatorChipStyle(currentGroup.operatorType).background,
-                            color: getOperatorChipStyle(currentGroup.operatorType).color,
-                            borderRadius: "999px",
-                            padding: "6px 10px",
-                            fontSize: "13px",
-                            fontWeight: 700,
-                          }}
-                        >
-                          {currentGroup.operatorType}
-                        </span>
-
-                        <span
-                          style={{
-                            background: getEventTypeChipStyle(currentGroup.eventType).background,
-                            color: getEventTypeChipStyle(currentGroup.eventType).color,
-                            border: getEventTypeChipStyle(currentGroup.eventType).border,
-                            borderRadius: "999px",
-                            padding: "6px 10px",
-                            fontSize: "13px",
-                            fontWeight: 700,
-                          }}
-                        >
-                          {getEventTypeLabel(currentGroup.eventType)}
-                        </span>
-                      </div>
-
-                      <h2 style={{ margin: 0, fontSize: "30px" }}>
-                        {currentGroup.operatorType} · {getEventTypeLabel(currentGroup.eventType)} · {currentGroup.eventTime}
-                      </h2>
-
-                      <div style={{ color: "#78716c", marginTop: "8px" }}>
-                        {currentGroup.items.length}개 시설 · {summarizeZones(currentGroup.items)}
-                      </div>
-                    </div>
-
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-                        gap: "12px",
-                      }}
-                    >
-                      {currentGroup.items.map((item) => (
-                        <div
-                          key={`${item.id}_${item.eventDate}_${item.eventType}`}
-                          style={{
-                            background: "#fafaf9",
-                            border: "1px solid #e7e5e4",
-                            borderRadius: "18px",
-                            padding: "16px",
-                          }}
-                        >
-                          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "10px" }}>
-                            <span
-                              style={{
-                                background: "#eef2ff",
-                                color: "#4338ca",
-                                borderRadius: "999px",
-                                padding: "5px 9px",
-                                fontSize: "12px",
-                                fontWeight: 700,
-                              }}
-                            >
-                              {item.zone}
-                            </span>
-
-                            <span
-                              style={{
-                                background: "#e7f7ea",
-                                color: "#166534",
-                                borderRadius: "999px",
-                                padding: "5px 9px",
-                                fontSize: "12px",
-                                fontWeight: 700,
-                              }}
-                            >
-                              {item.region}
-                            </span>
+                          <div className="mb-4 flex items-center justify-between gap-3">
+                            <div className="text-lg font-semibold text-stone-900 md:text-xl">
+                              {getDateLabel(dateGroup.date)}
+                            </div>
+                            <div className="text-sm font-semibold text-stone-400">›</div>
                           </div>
 
-                          <div style={{ fontWeight: 800, fontSize: "17px", marginBottom: "8px" }}>
+                          <div className="grid gap-3">
+                            {dateGroup.groups.map((group) => (
+                              <div
+                                key={group.groupKey}
+                                className="rounded-2xl border border-stone-200 bg-white p-4"
+                              >
+                                <div className="mb-2 flex flex-wrap gap-2">
+                                  <Badge className="bg-emerald-700 text-white">
+                                    {group.eventTime}
+                                  </Badge>
+                                  <Badge className={getOperatorBadgeClass(group.operatorType)}>
+                                    {group.operatorType}
+                                  </Badge>
+                                  <Badge className={getEventTypeBadgeClass(group.eventType)}>
+                                    {getEventTypeLabel(group.eventType)}
+                                  </Badge>
+                                </div>
+
+                                <div className="mb-1 text-sm font-semibold text-stone-900 md:text-base">
+                                  {group.items.length}개 시설
+                                </div>
+                                <div className="text-xs text-stone-500 md:text-sm">
+                                  {summarizeZones(group.items)}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </button>
+                      </SectionCard>
+                    ))}
+                  </div>
+                ) : (
+                  <SectionCard className="border-dashed p-10 text-center text-sm text-stone-500">
+                    이번 달에는 표시할 일정이 없습니다.
+                  </SectionCard>
+                )}
+              </div>
+            )}
+
+            {activeTab === "숙소검색" && (
+              <div className="mt-6 flex min-h-0 flex-1 flex-col border-t border-stone-200 pt-6">
+                <div className="mb-4 shrink-0 text-sm text-stone-500">
+                  검색어와 필터에 맞는 숙소를 시설 중심으로 확인할 수 있습니다.
+                </div>
+
+                {searchableItems.length ? (
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    {searchableItems.map((item) => (
+                                            <SectionCard key={item.id} className="p-4 w-full h-full">
+                        <div className="rounded-2xl border border-stone-200 bg-stone-50/70 p-5 h-full flex flex-col">
+                          <div className="mb-3 flex flex-wrap gap-2">
+                            <Badge className="bg-sky-50 text-sky-700 ring-1 ring-sky-200">
+                              {item.zone}
+                            </Badge>
+                            <Badge className="bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">
+                              {item.region}
+                            </Badge>
+                          </div>
+
+                          <div className="mb-2 text-xl font-semibold text-stone-900">
                             {item.name}
                           </div>
 
-                          <div style={{ color: "#57534e", fontSize: "14px", marginBottom: "6px" }}>
+                          <div className="mb-3 text-sm text-stone-600">
                             {item.facilityType} · {item.operatorType}
                           </div>
 
-                          {item.eventType === "선착순" && item.firstComeRule ? (
-                            <div style={{ color: "#1d4ed8", fontSize: "13px", fontWeight: 700, marginBottom: "6px", lineHeight: 1.5 }}>
+                          {item.firstComeRule ? (
+                            <div className="mb-2.5 text-sm font-semibold leading-7 text-sky-700">
+                              <span className="mr-2 inline-flex rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-bold text-sky-700 ring-1 ring-sky-200">
+                                선착순
+                              </span>
                               {item.firstComeRule}
                             </div>
                           ) : null}
 
-                          {item.eventType === "추첨접수" && item.lotteryRule ? (
-                            <div style={{ color: "#b45309", fontSize: "13px", fontWeight: 700, marginBottom: "6px", lineHeight: 1.5 }}>
+                          {item.lotteryRule ? (
+                            <div className="mb-2.5 text-sm font-semibold leading-7 text-amber-700">
+                              <span className="mr-2 inline-flex rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-bold text-amber-700 ring-1 ring-amber-200">
+                                추첨접수
+                              </span>
                               {item.lotteryRule}
                             </div>
                           ) : null}
 
-                          {item.eventType === "추첨발표" && item.lotteryResult ? (
-                            <div style={{ color: "#6d28d9", fontSize: "13px", fontWeight: 700, marginBottom: "6px", lineHeight: 1.5 }}>
+                          {item.lotteryResult ? (
+                            <div className="mb-2.5 text-sm font-semibold leading-7 text-violet-700">
+                              <span className="mr-2 inline-flex rounded-full bg-violet-50 px-2 py-0.5 text-[11px] font-bold text-violet-700 ring-1 ring-violet-200">
+                                추첨발표
+                              </span>
                               {item.lotteryResult}
                             </div>
                           ) : null}
 
-                          {item.eventType === "미결제/대기예약" && item.waitingOpen ? (
-                            <div style={{ color: "#b91c1c", fontSize: "13px", fontWeight: 700, marginBottom: "6px", lineHeight: 1.5 }}>
+                          {item.waitingOpen ? (
+                            <div className="mb-2.5 text-sm font-semibold leading-7 text-rose-700">
+                              <span className="mr-2 inline-flex rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-bold text-rose-700 ring-1 ring-rose-200">
+                                미결제/대기
+                              </span>
                               {item.waitingOpen}
                             </div>
                           ) : null}
 
                           {item.lotteryTarget ? (
-                            <div style={{ color: "#78716c", fontSize: "13px", marginBottom: "6px", lineHeight: 1.5 }}>
+                            <div className="mb-2 text-sm leading-6 text-stone-500">
                               추첨대상 · {item.lotteryTarget}
                             </div>
                           ) : null}
 
                           {item.note ? (
-                            <div
-                              style={{
-                                color: "#78716c",
-                                fontSize: "13px",
-                                lineHeight: 1.5,
-                                marginBottom: item.homepage ? "8px" : "0",
-                              }}
-                            >
+                            <div className="mb-3 text-sm leading-6 text-stone-500">
                               비고 · {item.note}
                             </div>
                           ) : null}
 
                           {item.localPriorityPolicy ? (
-                            <div style={{ marginBottom: "6px" }}>
+                            <div className="mb-3">
                               <button
                                 type="button"
-                                onClick={() =>
-                                  toggleExpand(
-                                    `${item.id}_${item.eventDate}_${item.eventType}_policy`
-                                  )
-                                }
-                                style={{
-                                  border: "none",
-                                  background: "transparent",
-                                  padding: 0,
-                                  color: "#dc2626",
-                                  fontSize: "13px",
-                                  fontWeight: 700,
-                                  cursor: "pointer",
-                                }}
+                                onClick={() => toggleExpand(`${item.id}_policy_search`)}
+                                className="text-sm font-semibold text-rose-600 hover:text-rose-700"
                               >
-                                📌 우선예약{" "}
-                                {expandedItems[
-                                  `${item.id}_${item.eventDate}_${item.eventType}_policy`
-                                ]
-                                  ? "▲ 접기"
-                                  : "▼ 더보기"}
+                                📌 우선예약 {expandedItems[`${item.id}_policy_search`] ? "▲ 접기" : "▼ 더보기"}
                               </button>
 
-                              {expandedItems[
-                                `${item.id}_${item.eventDate}_${item.eventType}_policy`
-                              ] ? (
-                                <div
-                                  style={{
-                                    color: "#dc2626",
-                                    fontSize: "13px",
-                                    lineHeight: 1.5,
-                                    marginTop: "4px",
-                                    whiteSpace: "pre-line",
-                                  }}
-                                >
+                              {expandedItems[`${item.id}_policy_search`] ? (
+                                <div className="mt-2 whitespace-pre-line text-sm leading-6 text-rose-600">
                                   {item.localPriorityPolicy}
                                 </div>
                               ) : null}
@@ -1699,76 +1367,257 @@ export default function Home() {
                           ) : null}
 
                           {item.recommendedRoomMemo ? (
-                            <div style={{ marginBottom: "6px" }}>
+                            <div className="mb-3">
                               <button
                                 type="button"
-                                onClick={() =>
-                                  toggleExpand(
-                                    `${item.id}_${item.eventDate}_${item.eventType}_recommended`
-                                  )
-                                }
-                                style={{
-                                  border: "none",
-                                  background: "transparent",
-                                  padding: 0,
-                                  color: "#2563eb",
-                                  fontSize: "13px",
-                                  fontWeight: 700,
-                                  cursor: "pointer",
-                                }}
+                                onClick={() => toggleExpand(`${item.id}_recommended_search`)}
+                                className="text-sm font-semibold text-sky-600 hover:text-sky-700"
                               >
-                                ⭐ 추천객실{" "}
-                                {expandedItems[
-                                  `${item.id}_${item.eventDate}_${item.eventType}_recommended`
-                                ]
-                                  ? "▲ 접기"
-                                  : "▼ 더보기"}
+                                ⭐ 추천객실 {expandedItems[`${item.id}_recommended_search`] ? "▲ 접기" : "▼ 더보기"}
                               </button>
 
-                              {expandedItems[
-                                `${item.id}_${item.eventDate}_${item.eventType}_recommended`
-                              ] ? (
-                                <div
-                                  style={{
-                                    color: "#2563eb",
-                                    fontSize: "13px",
-                                    lineHeight: 1.5,
-                                    marginTop: "4px",
-                                    whiteSpace: "pre-line",
-                                  }}
-                                >
+                              {expandedItems[`${item.id}_recommended_search`] ? (
+                                <div className="mt-2 whitespace-pre-line text-sm leading-6 text-sky-700">
                                   {item.recommendedRoomMemo}
                                 </div>
                               ) : null}
                             </div>
                           ) : null}
+
                           {item.homepage ? (
                             <a
                               href={item.homepage}
                               target="_blank"
                               rel="noreferrer"
-                              style={{ color: "#2563eb", fontSize: "13px" }}
+                              className="text-sm font-semibold text-emerald-700 hover:text-emerald-800"
                             >
-                              홈페이지 바로가기
+                              홈페이지 바로가기 →
                             </a>
                           ) : null}
                         </div>
-                      ))}
-                    </div>
+                      </SectionCard>
+                    ))}
                   </div>
                 ) : (
-                  <div
-                    style={{
-                      background: "#fff",
-                      border: "1px dashed #d6d3d1",
-                      borderRadius: "24px",
-                      padding: "40px",
-                      textAlign: "center",
-                      color: "#78716c",
-                    }}
-                  >
-                    선택한 날짜에 해당하는 일정이 없습니다.
+                  <SectionCard className="border-dashed p-10 text-center text-sm text-stone-500">
+                    조건에 맞는 숙소가 없습니다.
+                  </SectionCard>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </SectionCard>
+
+      {isModalOpen && selectedDate && (
+          <div
+            onClick={closeModal}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="grid h-[90vh] w-full max-w-7xl overflow-hidden rounded-3xl bg-white shadow-2xl md:grid-cols-[320px_1fr]"
+            >
+              <section className="overflow-y-auto border-b border-stone-200 p-4 md:border-b-0 md:border-r md:p-5">
+                <div className="mb-4 flex items-start justify-between gap-3">
+                  <div>
+                    <div className="mb-1 text-xl font-semibold text-stone-900 md:text-2xl">
+                      {selectedDateLabel}
+                    </div>
+                    <div className="text-sm text-stone-500">
+                      {eventsForSelectedDate.length}개 일정
+                    </div>
                   </div>
+
+                  <button
+                    onClick={closeModal}
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 text-xl font-semibold text-stone-600 transition hover:bg-stone-200"
+                    aria-label="닫기"
+                  >
+                    ×
+                  </button>
+                </div>
+
+                <div className="grid gap-3">
+                  {groupedForSelectedDate.map((group) => {
+                    const active = currentGroup?.groupKey === group.groupKey;
+                    return (
+                      <button
+                        key={group.groupKey}
+                        onClick={() => setSelectedGroupKey(group.groupKey)}
+                        className={cx(
+                          "w-full rounded-2xl border p-4 text-left transition",
+                          active
+                            ? "border-emerald-500 bg-emerald-50 ring-2 ring-emerald-100"
+                            : "border-stone-200 bg-white hover:shadow-sm"
+                        )}
+                      >
+                        <div className="mb-2 flex flex-wrap gap-2">
+                          <Badge className="bg-emerald-700 text-white">{group.eventTime}</Badge>
+                          <Badge className={getOperatorBadgeClass(group.operatorType)}>
+                            {group.operatorType}
+                          </Badge>
+                          <Badge className={getEventTypeBadgeClass(group.eventType)}>
+                            {getEventTypeLabel(group.eventType)}
+                          </Badge>
+                        </div>
+
+                        <div className="mb-1 text-sm font-semibold text-stone-900 md:text-base">
+                          {group.items.length}개 시설
+                        </div>
+                        <div className="text-xs text-stone-500 md:text-sm">
+                          {summarizeZones(group.items)}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+
+              <section className="overflow-y-auto bg-white/70 p-4 md:p-5">
+                {currentGroup ? (
+                  <SectionCard className="p-4 md:p-5">
+                    <div className="mb-5">
+                      <div className="mb-3 flex flex-wrap gap-2">
+                        <Badge className="bg-emerald-700 text-white">
+                          {currentGroup.eventTime}
+                        </Badge>
+                        <Badge className={getOperatorBadgeClass(currentGroup.operatorType)}>
+                          {currentGroup.operatorType}
+                        </Badge>
+                        <Badge className={getEventTypeBadgeClass(currentGroup.eventType)}>
+                          {getEventTypeLabel(currentGroup.eventType)}
+                        </Badge>
+                      </div>
+
+                      <h2 className="text-2xl font-semibold tracking-tight text-stone-900 md:text-3xl">
+                        {currentGroup.operatorType} · {getEventTypeLabel(currentGroup.eventType)} ·{" "}
+                        {currentGroup.eventTime}
+                      </h2>
+
+                      <div className="mt-2 text-sm text-stone-500 md:text-base">
+                        {currentGroup.items.length}개 시설 · {summarizeZones(currentGroup.items)}
+                      </div>
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                      {currentGroup.items.map((item) => {
+                        const policyKey = `${item.id}_${item.eventDate}_${item.eventType}_policy`;
+                        const recommendedKey = `${item.id}_${item.eventDate}_${item.eventType}_recommended`;
+
+                        return (
+                          <div
+                            key={`${item.id}_${item.eventDate}_${item.eventType}`}
+                            className="rounded-2xl border border-stone-200 bg-white/70 p-4"
+                          >
+                            <div className="mb-3 flex flex-wrap gap-2">
+                              <Badge className="bg-sky-50 text-sky-700 ring-1 ring-sky-200">
+                                {item.zone}
+                              </Badge>
+                              <Badge className="bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">
+                                {item.region}
+                              </Badge>
+                            </div>
+
+                            <div className="mb-2 text-lg font-semibold text-stone-900">
+                              {item.name}
+                            </div>
+
+                            <div className="mb-3 text-sm text-stone-600">
+                              {item.facilityType} · {item.operatorType}
+                            </div>
+
+                            {item.eventType === "선착순" && item.firstComeRule ? (
+                              <div className="mb-2 text-sm font-semibold leading-6 text-sky-700">
+                                {item.firstComeRule}
+                              </div>
+                            ) : null}
+
+                            {item.eventType === "추첨접수" && item.lotteryRule ? (
+                              <div className="mb-2 text-sm font-semibold leading-6 text-amber-700">
+                                {item.lotteryRule}
+                              </div>
+                            ) : null}
+
+                            {item.eventType === "추첨발표" && item.lotteryResult ? (
+                              <div className="mb-2 text-sm font-semibold leading-6 text-violet-700">
+                                {item.lotteryResult}
+                              </div>
+                            ) : null}
+
+                            {item.eventType === "미결제/대기예약" && item.waitingOpen ? (
+                              <div className="mb-2 text-sm font-semibold leading-6 text-rose-700">
+                                {item.waitingOpen}
+                              </div>
+                            ) : null}
+
+                            {item.lotteryTarget ? (
+                              <div className="mb-2 text-sm leading-6 text-stone-500">
+                                추첨대상 · {item.lotteryTarget}
+                              </div>
+                            ) : null}
+
+                            {item.note ? (
+                              <div className="mb-3 text-sm leading-6 text-stone-500">
+                                비고 · {item.note}
+                              </div>
+                            ) : null}
+
+                            {item.localPriorityPolicy ? (
+                              <div className="mb-3">
+                                <button
+                                  type="button"
+                                  onClick={() => toggleExpand(policyKey)}
+                                  className="text-sm font-semibold text-rose-600 hover:text-rose-700"
+                                >
+                                  📌 우선예약 {expandedItems[policyKey] ? "▲ 접기" : "▼ 더보기"}
+                                </button>
+
+                                {expandedItems[policyKey] ? (
+                                  <div className="mt-2 whitespace-pre-line text-sm leading-6 text-rose-600">
+                                    {item.localPriorityPolicy}
+                                  </div>
+                                ) : null}
+                              </div>
+                            ) : null}
+
+                            {item.recommendedRoomMemo ? (
+                              <div className="mb-3">
+                                <button
+                                  type="button"
+                                  onClick={() => toggleExpand(recommendedKey)}
+                                  className="text-sm font-semibold text-sky-600 hover:text-sky-700"
+                                >
+                                  ⭐ 추천객실 {expandedItems[recommendedKey] ? "▲ 접기" : "▼ 더보기"}
+                                </button>
+
+                                {expandedItems[recommendedKey] ? (
+                                  <div className="mt-2 whitespace-pre-line text-sm leading-6 text-sky-700">
+                                    {item.recommendedRoomMemo}
+                                  </div>
+                                ) : null}
+                              </div>
+                            ) : null}
+
+                            {item.homepage ? (
+                              <a
+                                href={item.homepage}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-sm font-semibold text-emerald-700 hover:text-emerald-800"
+                              >
+                                홈페이지 바로가기 →
+                              </a>
+                            ) : null}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </SectionCard>
+                ) : (
+                  <SectionCard className="border-dashed p-10 text-center text-sm text-stone-500">
+                    선택한 날짜에 해당하는 일정이 없습니다.
+                  </SectionCard>
                 )}
               </section>
             </div>
