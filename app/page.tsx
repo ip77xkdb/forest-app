@@ -1094,8 +1094,8 @@ const eventTypeCountByDate = useMemo(() => {
                   ))}
                 </div>
 
-                <div className="h-[900px] bg-blue-100 md:h-[1020px]">
-                  <div className="grid h-full grid-cols-7 grid-rows-6 gap-1 bg-red-100 md:gap-2">
+                <div className="h-[900px] md:h-[1020px]">
+                  <div className="grid h-full grid-cols-7 grid-rows-6 gap-1 md:gap-2">
                     {monthMatrix.flat().map((date) => {
                       const inMonth = date.getMonth() === viewMonth;
                       const key = formatDateKey(date);
@@ -1150,24 +1150,24 @@ const eventTypeCountByDate = useMemo(() => {
                             ) : null}
                           </div>
 
-                          <div className="grid h-[84px] grid-rows-4 justify-items-end gap-1">
+                          <div className="grid h-[84px] grid-rows-4 gap-1">
                             <span
                               style={{ visibility: typeCounts.선착순 === 0 ? "hidden" : "visible" }}
-                              className="inline-flex h-[18px] min-w-[28px] items-center justify-center rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-medium leading-none text-sky-700"
+                              className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-medium leading-none text-sky-700"
                             >
                               {typeCounts.선착순}
                             </span>
 
                             <span
                               style={{ visibility: typeCounts.추첨접수 === 0 ? "hidden" : "visible" }}
-                              className="inline-flex h-[18px] min-w-[28px] items-center justify-center rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium leading-none text-amber-700"
+                              className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium leading-none text-amber-700"
                             >
                               {typeCounts.추첨접수}
                             </span>
 
                             <span
                               style={{ visibility: typeCounts.추첨발표 === 0 ? "hidden" : "visible" }}
-                              className="inline-flex h-[18px] min-w-[28px] items-center justify-center rounded-full bg-violet-50 px-2 py-0.5 text-[11px] font-medium leading-none text-violet-700"
+                              className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-violet-50 px-2 py-0.5 text-[11px] font-medium leading-none text-violet-700"
                             >
                               {typeCounts.추첨발표}
                             </span>
@@ -1177,7 +1177,7 @@ const eventTypeCountByDate = useMemo(() => {
                                 visibility:
                                   typeCounts["미결제/대기예약"] === 0 ? "hidden" : "visible",
                               }}
-                              className="inline-flex h-[18px] min-w-[28px] items-center justify-center rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-medium leading-none text-rose-700"
+                              className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-medium leading-none text-rose-700"
                             >
                               {typeCounts["미결제/대기예약"]}
                             </span>
