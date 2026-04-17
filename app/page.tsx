@@ -1225,7 +1225,7 @@ export default function Home() {
                     ))}
                   </div>
 
-                  <div className="h-[860px] md:h-[1020px]">
+                  <div className="h-[860px] md:h-[820px]">
                     <div className="grid h-full grid-cols-7 auto-rows-[140px] gap-1 md:auto-rows-fr md:gap-2">
                       {monthMatrix.flat().map((date) => {
                         const inMonth = date.getMonth() === viewMonth;
@@ -1253,7 +1253,7 @@ export default function Home() {
                               openDateModal(key);
                             }}
                             className={cx(
-                              "group relative flex h-full min-h-0 flex-col items-center overflow-hidden rounded-2xl border px-3 py-3 text-center transition-all duration-200 md:h-full md:px-4 md:py-4 md:text-left",
+                              "group relative flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border px-3 py-3 text-left transition-all duration-200 md:h-full md:px-4 md:py-4",
                               inMonth
                                 ? "border-stone-200 bg-white hover:-translate-y-[1px] hover:border-stone-300 hover:bg-stone-50/80 hover:shadow-sm"
                                 : "cursor-default border-stone-100 bg-stone-50/50 text-stone-300",
@@ -1261,94 +1261,72 @@ export default function Home() {
                               isSelected && "border-emerald-500 shadow-[0_0_0_1px_rgba(16,185,129,0.15)]"
                             )}
                           >
-                            <div className="h-full w-full">
-                              {isMobile ? (
-                                <div className="flex justify-center">
-                                  <div
-                                    className={cx(
-                                      "inline-flex items-center justify-center rounded-full text-sm font-bold leading-none",
-                                      isToday
-                                        ? "bg-emerald-600 text-white"
-                                        : inMonth
-                                        ? "text-stone-900"
-                                        : "text-stone-300",
-                                      !isToday && isSelected && inMonth && "text-emerald-700"
-                                    )}
-                                    style={
-                                      isToday
-                                        ? {
-                                            width: "30px",
-                                            height: "30px",
-                                            backgroundColor: "#059669",
-                                            color: "#ffffff",
-                                          }
-                                        : undefined
-                                    }
+                            <div className="flex h-full w-full flex-col">
+                              <div className="flex w-full items-start justify-start">
+                                <div
+                                  className={cx(
+                                    "inline-flex items-center justify-center rounded-full text-sm font-bold leading-none md:text-base",
+                                    isToday
+                                      ? "bg-emerald-600 text-white"
+                                      : inMonth
+                                      ? "text-stone-900"
+                                      : "text-stone-300",
+                                    !isToday && isSelected && inMonth && "text-emerald-700"
+                                  )}
+                                  style={
+                                    isToday
+                                      ? {
+                                          width: "30px",
+                                          height: "30px",
+                                          backgroundColor: "#059669",
+                                          color: "#ffffff",
+                                        }
+                                      : undefined
+                                  }
+                                >
+                                  {date.getDate()}
+                                </div>
+                              </div>
+
+                              <div className="mt-auto flex w-full flex-col gap-0.5 pt-1 md:gap-1 md:pt-2">
+                                <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
+                                  <span
+                                    style={{ visibility: typeCounts.선착순 === 0 ? "hidden" : "visible" }}
+                                    className="inline-flex h-[17px] min-w-[28px] items-center justify-center rounded-full bg-sky-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-sky-700 md:h-[20px] md:min-w-[32px] md:text-[11px]"
                                   >
-                                    {date.getDate()}
-                                  </div>
+                                    {typeCounts.선착순}
+                                  </span>
                                 </div>
-                              ) : (
-                                <div className="flex w-full justify-start">
-                                  <div style={{ marginLeft: "10px" }}>
-                                    <div
-                                      className={cx(
-                                        "inline-flex items-center justify-center rounded-full text-base font-bold leading-none",
-                                        isToday
-                                          ? "bg-emerald-600 text-white"
-                                          : inMonth
-                                          ? "text-stone-900"
-                                          : "text-stone-300",
-                                        !isToday && isSelected && inMonth && "text-emerald-700"
-                                      )}
-                                      style={
-                                        isToday
-                                          ? {
-                                              width: "30px",
-                                              height: "30px",
-                                              backgroundColor: "#059669",
-                                              color: "#ffffff",
-                                            }
-                                          : undefined
-                                      }
-                                    >
-                                      {date.getDate()}
-                                    </div>
-                                  </div>
+
+                                <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
+                                  <span
+                                    style={{ visibility: typeCounts.추첨접수 === 0 ? "hidden" : "visible" }}
+                                    className="inline-flex h-[17px] min-w-[28px] items-center justify-center rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-amber-700 md:h-[20px] md:min-w-[32px] md:text-[11px]"
+                                  >
+                                    {typeCounts.추첨접수}
+                                  </span>
                                 </div>
-                              )}
 
-                              <div className="grid h-[72px] w-full justify-items-center md:justify-items-end grid-rows-4 gap-0.5 pt-1 md:h-[84px] md:gap-1 md:pt-2">
-                                <span
-                                  style={{ visibility: typeCounts.선착순 === 0 ? "hidden" : "visible" }}
-                                  className="inline-flex h-[17px] w-[28px] items-center justify-center rounded-full bg-sky-50 px-0 py-0.5 text-[10px] font-medium leading-none text-sky-700 md:h-[20px] md:w-[32px] md:text-[11px]"
-                                >
-                                  {typeCounts.선착순}
-                                </span>
+                                <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
+                                  <span
+                                    style={{ visibility: typeCounts.추첨발표 === 0 ? "hidden" : "visible" }}
+                                    className="inline-flex h-[17px] min-w-[28px] items-center justify-center rounded-full bg-violet-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-violet-700 md:h-[20px] md:min-w-[32px] md:text-[11px]"
+                                  >
+                                    {typeCounts.추첨발표}
+                                  </span>
+                                </div>
 
-                                <span
-                                  style={{ visibility: typeCounts.추첨접수 === 0 ? "hidden" : "visible" }}
-                                  className="inline-flex h-[17px] w-[28px] items-center justify-center rounded-full bg-amber-50 px-0 py-0.5 text-[10px] font-medium leading-none text-amber-700 md:h-[20px] md:w-[32px] md:text-[11px]"
-                                >
-                                  {typeCounts.추첨접수}
-                                </span>
-
-                                <span
-                                  style={{ visibility: typeCounts.추첨발표 === 0 ? "hidden" : "visible" }}
-                                  className="inline-flex h-[17px] w-[28px] items-center justify-center rounded-full bg-violet-50 px-0 py-0.5 text-[10px] font-medium leading-none text-violet-700 md:h-[20px] md:w-[32px] md:text-[11px]"
-                                >
-                                  {typeCounts.추첨발표}
-                                </span>
-
-                                <span
-                                  style={{
-                                    visibility:
-                                      typeCounts["미결제/대기예약"] === 0 ? "hidden" : "visible",
-                                  }}
-                                  className="inline-flex h-[17px] w-[28px] items-center justify-center rounded-full bg-rose-50 px-0 py-0.5 text-[10px] font-medium leading-none text-rose-700 md:h-[20px] md:w-[32px] md:text-[11px]"
-                                >
-                                  {typeCounts["미결제/대기예약"]}
-                                </span>
+                                <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
+                                  <span
+                                    style={{
+                                      visibility:
+                                        typeCounts["미결제/대기예약"] === 0 ? "hidden" : "visible",
+                                    }}
+                                    className="inline-flex h-[17px] min-w-[28px] items-center justify-center rounded-full bg-rose-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-rose-700 md:h-[20px] md:min-w-[32px] md:text-[11px]"
+                                  >
+                                    {typeCounts["미결제/대기예약"]}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </button>
