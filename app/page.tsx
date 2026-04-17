@@ -1226,7 +1226,7 @@ export default function Home() {
                   </div>
 
                   <div className="h-[860px] md:h-[820px]">
-                    <div className="grid h-full grid-cols-7 auto-rows-[140px] gap-1 md:auto-rows-fr md:gap-2">
+                    <div className="grid h-full grid-cols-7 auto-rows-[170px] gap-1 md:auto-rows-fr md:gap-2">
                       {monthMatrix.flat().map((date) => {
                         const inMonth = date.getMonth() === viewMonth;
                         const key = formatDateKey(date);
