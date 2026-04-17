@@ -1253,7 +1253,7 @@ export default function Home() {
                               openDateModal(key);
                             }}
                             className={cx(
-                              "group relative flex h-[180px] min-h-0 flex-col items-center overflow-hidden rounded-2xl border px-3 py-3 text-center transition-all duration-200 md:h-full md:px-4 md:py-4 md:text-left",
+                              "group relative flex h-full min-h-0 flex-col items-center overflow-hidden rounded-2xl border px-3 py-3 text-center transition-all duration-200 md:h-full md:px-4 md:py-4 md:text-left",
                               inMonth
                                 ? "border-stone-200 bg-white hover:-translate-y-[1px] hover:border-stone-300 hover:bg-stone-50/80 hover:shadow-sm"
                                 : "cursor-default border-stone-100 bg-stone-50/50 text-stone-300",
@@ -1318,7 +1318,7 @@ export default function Home() {
                                 </div>
                               )}
 
-                              <div className="grid h-[72px] w-full justify-items-center grid-rows-4 gap-0.5 pt-1 md:h-[84px] md:gap-1 md:pt-2">
+                              <div className="grid h-[72px] w-full justify-items-center md:justify-items-end grid-rows-4 gap-0.5 pt-1 md:h-[84px] md:gap-1 md:pt-2">
                                 <span
                                   style={{ visibility: typeCounts.선착순 === 0 ? "hidden" : "visible" }}
                                   className="inline-flex h-[17px] w-[28px] items-center justify-center rounded-full bg-sky-50 px-0 py-0.5 text-[10px] font-medium leading-none text-sky-700 md:h-[20px] md:w-[32px] md:text-[11px]"
