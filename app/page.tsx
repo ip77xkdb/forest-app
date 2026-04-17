@@ -908,8 +908,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white text-stone-800">
       <div className="mx-auto max-w-7xl px-4 py-4 md:px-6 md:py-8">
-        <SectionCard className="overflow-hidden h-[1500px]">
-          <div className="flex h-full flex-col">
+        <SectionCard className="overflow-visible">
+          <div className="flex flex-col">
             <div className="shrink-0 border-b border-stone-200 px-4 py-5 md:px-6 md:py-6">
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div className="space-y-1">
@@ -1140,7 +1140,7 @@ export default function Home() {
               </div>
 
               {activeTab === "캘린더" && (
-                <div className="mt-6 h-[980px] border-t border-stone-200 pt-6">
+                 <div className="mt-6 border-t border-stone-200 pt-6">
                   <div className="mb-5 shrink-0 flex items-center justify-center">
                     <button
                       onClick={() => moveMonth(-1)}
@@ -1225,7 +1225,7 @@ export default function Home() {
                     ))}
                   </div>
 
-                  <div className="h-[860px] md:h-[820px]">
+                  <div>
                     <div className="grid h-full grid-cols-7 auto-rows-[170px] gap-1 md:auto-rows-fr md:gap-2">
                       {monthMatrix.flat().map((date) => {
                         const inMonth = date.getMonth() === viewMonth;
