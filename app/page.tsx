@@ -1288,11 +1288,11 @@ export default function Home() {
                                 </div>
                               </div>
 
-                              <div className="mt-auto flex w-full flex-col gap-0.5 pt-1 md:gap-1 md:pt-2">
+                              <div className="mt-auto flex w-full flex-col gap-1 pt-1.5 md:gap-1.5 md:pt-2">
                                 <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
                                   <span
                                     style={{ visibility: typeCounts.선착순 === 0 ? "hidden" : "visible" }}
-                                    className="flex w-full max-w-[80px] items-center justify-center rounded-full bg-sky-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-sky-700 md:h-[20px] md:text-[11px]"
+                                    className="flex w-full max-w-[108px] items-center justify-center rounded-full bg-sky-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-sky-700 md:h-[20px] md:text-[11px]"
                                   >
                                     {typeCounts.선착순}
                                   </span>
@@ -1301,7 +1301,7 @@ export default function Home() {
                                 <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
                                   <span
                                     style={{ visibility: typeCounts.추첨접수 === 0 ? "hidden" : "visible" }}
-                                    className="inline-flex h-[17px] min-w-[28px] items-center justify-center rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-amber-700 md:h-[20px] md:min-w-[32px] md:text-[11px]"
+                                    className="flex w-full max-w-[108px] items-center justify-center rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-amber-700 md:h-[20px] md:text-[11px]"
                                   >
                                     {typeCounts.추첨접수}
                                   </span>
@@ -1310,7 +1310,7 @@ export default function Home() {
                                 <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
                                   <span
                                     style={{ visibility: typeCounts.추첨발표 === 0 ? "hidden" : "visible" }}
-                                    className="inline-flex h-[17px] min-w-[28px] items-center justify-center rounded-full bg-violet-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-violet-700 md:h-[20px] md:min-w-[32px] md:text-[11px]"
+                                    className="flex w-full max-w-[108px] items-center justify-center rounded-full bg-violet-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-violet-700 md:h-[20px] md:text-[11px]"
                                   >
                                     {typeCounts.추첨발표}
                                   </span>
@@ -1322,7 +1322,7 @@ export default function Home() {
                                       visibility:
                                         typeCounts["미결제/대기예약"] === 0 ? "hidden" : "visible",
                                     }}
-                                    className="inline-flex h-[17px] min-w-[28px] items-center justify-center rounded-full bg-rose-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-rose-700 md:h-[20px] md:min-w-[32px] md:text-[11px]"
+                                    className="flex w-full max-w-[108px] items-center justify-center rounded-full bg-rose-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-rose-700 md:h-[20px] md:text-[11px]"
                                   >
                                     {typeCounts["미결제/대기예약"]}
                                   </span>
