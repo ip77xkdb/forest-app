@@ -1288,41 +1288,41 @@ export default function Home() {
                                 </div>
                               </div>
 
-                              <div className="mt-auto flex w-full flex-col gap-1 pt-2">
-                                <div className="flex h-[18px] w-full items-center justify-center md:h-[22px]">
+                              <div className="mt-auto flex w-full flex-col gap-0.5 pt-1 md:gap-1 md:pt-2">
+                                <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
                                   <span
                                     style={{ visibility: typeCounts.선착순 === 0 ? "hidden" : "visible" }}
-                                    className="inline-flex h-full w-full max-w-[72px] items-center justify-center rounded-full bg-sky-50 px-2 text-[10px] font-semibold leading-none text-sky-700 ring-1 ring-sky-200 md:max-w-[84px] md:text-[11px]"
+                                    className="flex w-full max-w-[80px] items-center justify-center rounded-full bg-sky-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-sky-700 md:h-[20px] md:text-[11px]"
                                   >
                                     {typeCounts.선착순}
                                   </span>
                                 </div>
 
-                                <div className="flex h-[18px] w-full items-center justify-center md:h-[22px]">
+                                <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
                                   <span
                                     style={{ visibility: typeCounts.추첨접수 === 0 ? "hidden" : "visible" }}
-                                    className="inline-flex h-full w-full max-w-[72px] items-center justify-center rounded-full bg-amber-50 px-2 text-[10px] font-semibold leading-none text-amber-700 ring-1 ring-amber-200 md:max-w-[84px] md:text-[11px]"
+                                    className="inline-flex h-[17px] min-w-[28px] items-center justify-center rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-amber-700 md:h-[20px] md:min-w-[32px] md:text-[11px]"
                                   >
                                     {typeCounts.추첨접수}
                                   </span>
                                 </div>
 
-                                <div className="flex h-[18px] w-full items-center justify-center md:h-[22px]">
+                                <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
                                   <span
                                     style={{ visibility: typeCounts.추첨발표 === 0 ? "hidden" : "visible" }}
-                                    className="inline-flex h-full w-full max-w-[72px] items-center justify-center rounded-full bg-violet-50 px-2 text-[10px] font-semibold leading-none text-violet-700 ring-1 ring-violet-200 md:max-w-[84px] md:text-[11px]"
+                                    className="inline-flex h-[17px] min-w-[28px] items-center justify-center rounded-full bg-violet-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-violet-700 md:h-[20px] md:min-w-[32px] md:text-[11px]"
                                   >
                                     {typeCounts.추첨발표}
                                   </span>
                                 </div>
 
-                                <div className="flex h-[18px] w-full items-center justify-center md:h-[22px]">
+                                <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
                                   <span
                                     style={{
                                       visibility:
                                         typeCounts["미결제/대기예약"] === 0 ? "hidden" : "visible",
                                     }}
-                                    className="inline-flex h-full w-full max-w-[72px] items-center justify-center rounded-full bg-rose-50 px-2 text-[10px] font-semibold leading-none text-rose-700 ring-1 ring-rose-200 md:max-w-[84px] md:text-[11px]"
+                                    className="inline-flex h-[17px] min-w-[28px] items-center justify-center rounded-full bg-rose-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-rose-700 md:h-[20px] md:min-w-[32px] md:text-[11px]"
                                   >
                                     {typeCounts["미결제/대기예약"]}
                                   </span>
