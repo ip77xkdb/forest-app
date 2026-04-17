@@ -572,7 +572,7 @@ function ChipButton({
     <button
       onClick={onClick}
       className={cx(
-        "rounded-full border px-2.5 py-1 text-xs font-medium transition",
+        "shrink-0 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-medium transition",
         strong
           ? active
             ? "border-emerald-700 bg-emerald-700 text-white"
@@ -661,11 +661,31 @@ export default function Home() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedGroupKey, setSelectedGroupKey] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openFilter, setOpenFilter] = useState<string | null>(null);
+  const [isGroupDetailOpen, setIsGroupDetailOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileGroup, setMobileGroup] = useState<EventGroup | null>(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
     const current = new Date();
     setTodayKey(formatDateKey(current));
     setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px)");
+
+    const handleChange = () => {
+      setIsMobile(media.matches);
+    };
+
+    handleChange();
+    media.addEventListener("change", handleChange);
+
+    return () => {
+      media.removeEventListener("change", handleChange);
+    };
   }, []);
 
   const filteredRules = useMemo(() => {
@@ -726,32 +746,32 @@ export default function Home() {
     return map;
   }, [calendarEvents]);
 
-const eventTypeCountByDate = useMemo(() => {
-  const map: Record<
-    string,
-    {
-      선착순: number;
-      추첨접수: number;
-      추첨발표: number;
-      "미결제/대기예약": number;
-    }
-  > = {};
+  const eventTypeCountByDate = useMemo(() => {
+    const map: Record<
+      string,
+      {
+        선착순: number;
+        추첨접수: number;
+        추첨발표: number;
+        "미결제/대기예약": number;
+      }
+    > = {};
 
-  visibleEvents.forEach((e) => {
-    if (!map[e.eventDate]) {
-      map[e.eventDate] = {
-        선착순: 0,
-        추첨접수: 0,
-        추첨발표: 0,
-        "미결제/대기예약": 0,
-      };
-    }
+    visibleEvents.forEach((e) => {
+      if (!map[e.eventDate]) {
+        map[e.eventDate] = {
+          선착순: 0,
+          추첨접수: 0,
+          추첨발표: 0,
+          "미결제/대기예약": 0,
+        };
+      }
 
-    map[e.eventDate][e.eventType] += 1;
-  });
+      map[e.eventDate][e.eventType] += 1;
+    });
 
-  return map;
-}, [visibleEvents]);
+    return map;
+  }, [visibleEvents]);
 
   const eventsForSelectedDate = useMemo(() => {
     if (!selectedDate) return [];
@@ -787,8 +807,10 @@ const eventTypeCountByDate = useMemo(() => {
   }, [eventsForSelectedDate, sortMode]);
 
   const currentGroup = useMemo(() => {
-    if (!groupedForSelectedDate.length) return null;
-    return groupedForSelectedDate.find((group) => group.groupKey === selectedGroupKey) || groupedForSelectedDate[0];
+    if (!groupedForSelectedDate.length || !selectedGroupKey) return null;
+    return (
+      groupedForSelectedDate.find((group) => group.groupKey === selectedGroupKey) || null
+    );
   }, [groupedForSelectedDate, selectedGroupKey]);
 
   const timelineGroups = useMemo<TimelineDateGroup[]>(() => {
@@ -852,9 +874,20 @@ const eventTypeCountByDate = useMemo(() => {
     setIsModalOpen(false);
   }
 
+  function toggleFilter(name: string) {
+    setOpenFilter((prev) => (prev === name ? null : name));
+  }
+
   function closeModal() {
     setIsModalOpen(false);
     setSelectedGroupKey(null);
+    setIsGroupDetailOpen(false);
+    setMobileGroup(null);
+  }
+
+  function closeGroupDetail() {
+    setIsGroupDetailOpen(false);
+    setMobileGroup(null);
   }
 
   function openDateModal(dateKey: string) {
@@ -879,20 +912,16 @@ const eventTypeCountByDate = useMemo(() => {
           <div className="flex h-full flex-col">
             <div className="shrink-0 border-b border-stone-200 px-4 py-5 md:px-6 md:py-6">
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                <div>
-                  <div className="mb-2 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200">
-                    Forest Booking Dashboard
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg md:text-xl">🌲🏡</span>
+                    <h1 className="text-2xl font-semibold tracking-tight text-stone-900 md:text-3xl">
+                      열림
+                    </h1>
+                    <span className="ml-2 text-sm text-stone-400 md:text-base">
+                      자연휴양림 · 국립공원 · 캠핑장
+                    </span>
                   </div>
-                  <h1 className="text-2xl font-semibold tracking-tight text-stone-900 md:text-3xl">
-                    숙소 예약 오픈 캘린더
-                  </h1>
-                  <p className="mt-2 text-sm text-stone-500 md:text-base">
-                    자연휴양림 · 캠핑장 · 공공숙소 예약 일정을 한눈에 확인하세요.
-                  </p>
-                </div>
-
-                <div className="rounded-2xl bg-stone-100 px-4 py-3 text-sm font-semibold text-stone-700">
-                  {monthLabel} · {visibleEvents.length}개 일정
                 </div>
               </div>
 
@@ -919,497 +948,592 @@ const eventTypeCountByDate = useMemo(() => {
                   </span>
                 </div>
 
-                <div className="grid gap-2">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="min-w-[56px] text-sm font-medium text-stone-500">빠른필터</span>
-                  {eventFilterOptions.map((type) => (
-                    <ChipButton
-                      key={type}
-                      active={selectedEventFilter === type}
-                      onClick={() => {
-                        setSelectedEventFilter(type);
-                        setSelectedDate(null);
-                        setSelectedGroupKey(null);
-                        setIsModalOpen(false);
-                      }}
+                <div className="grid min-w-0 gap-2">
+                  <div className="rounded-2xl border border-stone-200 bg-white px-3 py-2">
+                    <button
+                      type="button"
+                      onClick={() => toggleFilter("event")}
+                      className="flex w-full items-center justify-between gap-3 text-left"
                     >
-                      {type === "미결제/대기예약" ? "미결제/대기" : type}
-                    </ChipButton>
-                  ))}
-                </div>
+                      <span className="text-sm font-medium text-stone-500">빠른필터</span>
+                      <span className="text-sm font-semibold text-emerald-700">
+                        {selectedEventFilter === "미결제/대기예약"
+                          ? "미결제/대기"
+                          : selectedEventFilter}
+                        <span className="ml-1 text-stone-400">
+                          {openFilter === "event" ? "▲" : "▼"}
+                        </span>
+                      </span>
+                    </button>
 
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="min-w-[56px] text-sm font-medium text-stone-500">운영주체</span>
-                  {operatorOptions.map((type) => (
-                    <ChipButton
-                      key={type}
-                      strong
-                      active={selectedOperator === type}
-                      onClick={() => {
-                        setSelectedOperator(type);
-                        setSelectedDate(null);
-                        setSelectedGroupKey(null);
-                        setIsModalOpen(false);
-                      }}
-                    >
-                      {type}
-                    </ChipButton>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="min-w-[56px] text-sm font-medium text-stone-500">시설유형</span>
-                  {facilityOptions.map((type) => (
-                    <ChipButton
-                      key={type}
-                      active={selectedFacility === type}
-                      onClick={() => {
-                        setSelectedFacility(type);
-                        setSelectedDate(null);
-                        setSelectedGroupKey(null);
-                        setIsModalOpen(false);
-                      }}
-                    >
-                      {type}
-                    </ChipButton>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="min-w-[56px] text-sm font-medium text-stone-500">권역</span>
-                  {zoneOptions.map((type) => (
-                    <ChipButton
-                      key={type}
-                      active={selectedZone === type}
-                      onClick={() => {
-                        setSelectedZone(type);
-                        setSelectedDate(null);
-                        setSelectedGroupKey(null);
-                        setIsModalOpen(false);
-                      }}
-                    >
-                      {type}
-                    </ChipButton>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="min-w-[56px] text-sm font-medium text-stone-500">정렬</span>
-                  {sortOptions.map((type) => (
-                    <ChipButton key={type} active={sortMode === type} onClick={() => setSortMode(type)}>
-                      {type}
-                    </ChipButton>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {activeTab === "캘린더" && (
-              <div className="mt-6 h-[980px] border-t border-stone-200 pt-6">
-                <div className="mb-5 shrink-0 flex items-center justify-center">
-                  <button
-                    onClick={() => moveMonth(-1)}
-                    className="mr-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-stone-400 transition-all duration-200 hover:bg-stone-100 hover:text-stone-900"
-                    aria-label="이전 달"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.2"
-                      className="h-5 w-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15 18l-6-6 6-6"
-                      />
-                    </svg>
-                  </button>
-
-                  <div className="px-2 text-2xl font-semibold text-stone-900 md:text-3xl">
-                    {monthLabel}
+                    {openFilter === "event" && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {eventFilterOptions.map((type) => (
+                          <ChipButton
+                            key={type}
+                            active={selectedEventFilter === type}
+                            onClick={() => {
+                              setSelectedEventFilter(type);
+                              setSelectedDate(null);
+                              setSelectedGroupKey(null);
+                              setIsModalOpen(false);
+                              setOpenFilter(null);
+                            }}
+                          >
+                            {type === "미결제/대기예약" ? "미결제/대기" : type}
+                          </ChipButton>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  <button
-                    onClick={() => moveMonth(1)}
-                    className="ml-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-stone-400 transition-all duration-200 hover:bg-stone-100 hover:text-stone-900"
-                    aria-label="다음 달"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.2"
-                      className="h-5 w-5"
+                  <div className="rounded-2xl border border-stone-200 bg-white px-3 py-2">
+                    <button
+                      type="button"
+                      onClick={() => toggleFilter("operator")}
+                      className="flex w-full items-center justify-between gap-3 text-left"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 6l6 6-6 6"
-                      />
-                    </svg>
-                  </button>
-                </div>
+                      <span className="text-sm font-medium text-stone-500">운영주체</span>
+                      <span className="text-sm font-semibold text-emerald-700">
+                        {selectedOperator}
+                        <span className="ml-1 text-stone-400">
+                          {openFilter === "operator" ? "▲" : "▼"}
+                        </span>
+                      </span>
+                    </button>
 
+                    {openFilter === "operator" && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {operatorOptions.map((type) => (
+                          <ChipButton
+                            key={type}
+                            strong
+                            active={selectedOperator === type}
+                            onClick={() => {
+                              setSelectedOperator(type);
+                              setSelectedDate(null);
+                              setSelectedGroupKey(null);
+                              setIsModalOpen(false);
+                              setOpenFilter(null);
+                            }}
+                          >
+                            {type}
+                          </ChipButton>
+                        ))}
+                      </div>
+                    )}
+                  </div>
 
-                {/* 🔽 범례 추가 */}
-                <div className="mb-5 shrink-0 flex flex-wrap items-center justify-center gap-2">
-                  <span className="inline-flex rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-bold text-sky-700 ring-1 ring-sky-200">
-                    선착순
-                  </span>
-
-                  <span className="inline-flex rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-bold text-amber-700 ring-1 ring-amber-200">
-                    추첨접수
-                  </span>
-
-                  <span className="inline-flex rounded-full bg-violet-50 px-2 py-0.5 text-[11px] font-bold text-violet-700 ring-1 ring-violet-200">
-                    추첨발표
-                  </span>
-
-                  <span className="inline-flex rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-bold text-rose-700 ring-1 ring-rose-200">
-                    미결제/대기
-                  </span>
-                </div>
-
-                {/* 👉 여기 아래가 캘린더 grid */}
-
-                <div className="mb-2 shrink-0 grid grid-cols-7 gap-1 md:gap-2">
-                  {["일", "월", "화", "수", "목", "금", "토"].map((day, i) => (
-                    <div
-                      key={day}
-                      className={cx(
-                        "rounded-xl bg-stone-100 px-2 py-2 text-center text-xs font-semibold md:text-sm",
-                        i === 0
-                          ? "text-rose-500"
-                          : i === 6
-                          ? "text-blue-600"
-                          : "text-stone-600"
-                      )}
+                  <div className="rounded-2xl border border-stone-200 bg-white px-3 py-2">
+                    <button
+                      type="button"
+                      onClick={() => toggleFilter("facility")}
+                      className="flex w-full items-center justify-between gap-3 text-left"
                     >
-                      {day}
+                      <span className="text-sm font-medium text-stone-500">시설유형</span>
+                      <span className="text-sm font-semibold text-emerald-700">
+                        {selectedFacility}
+                        <span className="ml-1 text-stone-400">
+                          {openFilter === "facility" ? "▲" : "▼"}
+                        </span>
+                      </span>
+                    </button>
+
+                    {openFilter === "facility" && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {facilityOptions.map((type) => (
+                          <ChipButton
+                            key={type}
+                            active={selectedFacility === type}
+                            onClick={() => {
+                              setSelectedFacility(type);
+                              setSelectedDate(null);
+                              setSelectedGroupKey(null);
+                              setIsModalOpen(false);
+                              setOpenFilter(null);
+                            }}
+                          >
+                            {type}
+                          </ChipButton>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="rounded-2xl border border-stone-200 bg-white px-3 py-2">
+                    <button
+                      type="button"
+                      onClick={() => toggleFilter("zone")}
+                      className="flex w-full items-center justify-between gap-3 text-left"
+                    >
+                      <span className="text-sm font-medium text-stone-500">권역</span>
+                      <span className="text-sm font-semibold text-emerald-700">
+                        {selectedZone}
+                        <span className="ml-1 text-stone-400">
+                          {openFilter === "zone" ? "▲" : "▼"}
+                        </span>
+                      </span>
+                    </button>
+
+                    {openFilter === "zone" && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {zoneOptions.map((type) => (
+                          <ChipButton
+                            key={type}
+                            active={selectedZone === type}
+                            onClick={() => {
+                              setSelectedZone(type);
+                              setSelectedDate(null);
+                              setSelectedGroupKey(null);
+                              setIsModalOpen(false);
+                              setOpenFilter(null);
+                            }}
+                          >
+                            {type}
+                          </ChipButton>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+
+                  <div className="rounded-2xl border border-stone-200 bg-white px-3 py-2">
+                    <button
+                      type="button"
+                      onClick={() => toggleFilter("sort")}
+                      className="flex w-full items-center justify-between gap-3 text-left"
+                    >
+                      <span className="text-sm font-medium text-stone-500">정렬</span>
+                      <span className="text-sm font-semibold text-emerald-700">
+                        {sortMode}
+                        <span className="ml-1 text-stone-400">
+                          {openFilter === "sort" ? "▲" : "▼"}
+                        </span>
+                      </span>
+                    </button>
+
+                    {openFilter === "sort" && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {sortOptions.map((type) => (
+                          <ChipButton
+                            key={type}
+                            active={sortMode === type}
+                            onClick={() => {
+                              setSortMode(type);
+                              setOpenFilter(null);
+                            }}
+                          >
+                            {type}
+                          </ChipButton>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {activeTab === "캘린더" && (
+                <div className="mt-6 h-[980px] border-t border-stone-200 pt-6">
+                  <div className="mb-5 shrink-0 flex items-center justify-center">
+                    <button
+                      onClick={() => moveMonth(-1)}
+                      className="mr-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-stone-400 transition-all duration-200 hover:bg-stone-100 hover:text-stone-900"
+                      aria-label="이전 달"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        className="h-5 w-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15 18l-6-6 6-6"
+                        />
+                      </svg>
+                    </button>
+
+                    <div className="px-2 text-2xl font-semibold text-stone-900 md:text-3xl">
+                      {monthLabel}
                     </div>
-                  ))}
-                </div>
 
-                <div className="h-[900px] md:h-[1020px]">
-                  <div className="grid h-full grid-cols-7 grid-rows-6 gap-1 md:gap-2">
-                    {monthMatrix.flat().map((date) => {
-                      const inMonth = date.getMonth() === viewMonth;
-                      const key = formatDateKey(date);
-                      const typeCounts = eventTypeCountByDate[key] || {
-                        선착순: 0,
-                        추첨접수: 0,
-                        추첨발표: 0,
-                        "미결제/대기예약": 0,
-                      };
+                    <button
+                      onClick={() => moveMonth(1)}
+                      className="ml-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-stone-400 transition-all duration-200 hover:bg-stone-100 hover:text-stone-900"
+                      aria-label="다음 달"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        className="h-5 w-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9 6l6 6-6 6"
+                        />
+                      </svg>
+                    </button>
+                  </div>
 
-                    const isSelected = selectedDate === key;
-                    const now = new Date();
+                  <div className="mb-5 shrink-0 flex flex-wrap items-center justify-center gap-2">
+                    <span className="inline-flex rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-bold text-sky-700 ring-1 ring-sky-200">
+                      선착순
+                    </span>
 
-                    const isToday =
-                      date.getFullYear() === now.getFullYear() &&
-                      date.getMonth() === now.getMonth() &&
-                      date.getDate() === now.getDate();
+                    <span className="inline-flex rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-bold text-amber-700 ring-1 ring-amber-200">
+                      추첨접수
+                    </span>
 
-                    return (
-                      <button
-                        key={key}
-                        onClick={() => {
-                          if (!inMonth) return;
-                          openDateModal(key);
-                        }}
+                    <span className="inline-flex rounded-full bg-violet-50 px-2 py-0.5 text-[11px] font-bold text-violet-700 ring-1 ring-violet-200">
+                      추첨발표
+                    </span>
+
+                    <span className="inline-flex rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-bold text-rose-700 ring-1 ring-rose-200">
+                      미결제/대기
+                    </span>
+                  </div>
+
+                  <div className="mb-2 shrink-0 grid grid-cols-7 gap-1 md:gap-2">
+                    {["일", "월", "화", "수", "목", "금", "토"].map((day, i) => (
+                      <div
+                        key={day}
                         className={cx(
-                          "group relative flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border px-3 py-3 text-left transition-all duration-200 md:px-4 md:py-4",
-                          inMonth
-                            ? "border-stone-200 bg-white hover:-translate-y-[1px] hover:border-stone-300 hover:bg-stone-50/80 hover:shadow-sm"
-                            : "cursor-default border-stone-100 bg-stone-50/50 text-stone-300",
-                          isToday && "border-emerald-300 bg-emerald-50/50",
-                          isSelected && "border-emerald-500 shadow-[0_0_0_1px_rgba(16,185,129,0.15)]"
+                          "rounded-xl bg-stone-100 px-2 py-2 text-center text-xs font-semibold md:text-sm",
+                          i === 0
+                            ? "text-rose-500"
+                            : i === 6
+                            ? "text-blue-600"
+                            : "text-stone-600"
                         )}
                       >
-                        <div className="grid h-full grid-rows-[auto_84px]">
-                          <div className="flex items-center gap-1.5">
-                            <div
-                              className={cx(
-                                "text-sm font-semibold leading-none md:text-base",
-                                inMonth ? "text-stone-900" : "text-stone-300",
-                                isToday && "text-emerald-700 font-bold",
-                                isSelected && !isToday && inMonth && "text-emerald-700"
-                              )}
-                            >
-                              {date.getDate()}
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="h-[700px] md:h-[1020px]">
+                    <div className="grid h-full grid-cols-7 auto-rows-fr gap-1 md:gap-2">
+                      {monthMatrix.flat().map((date) => {
+                        const inMonth = date.getMonth() === viewMonth;
+                        const key = formatDateKey(date);
+                        const typeCounts = eventTypeCountByDate[key] || {
+                          선착순: 0,
+                          추첨접수: 0,
+                          추첨발표: 0,
+                          "미결제/대기예약": 0,
+                        };
+
+                        const isSelected = selectedDate === key;
+                        const now = new Date();
+
+                        const isToday =
+                          date.getFullYear() === now.getFullYear() &&
+                          date.getMonth() === now.getMonth() &&
+                          date.getDate() === now.getDate();
+
+                        return (
+                          <button
+                            key={key}
+                            onClick={() => {
+                              if (!inMonth) return;
+                              openDateModal(key);
+                            }}
+                            className={cx(
+                              "group relative flex h-[140px] min-h-0 flex-col overflow-hidden rounded-2xl border px-3 py-3 text-left transition-all duration-200 md:h-full md:px-4 md:py-4",
+                              inMonth
+                                ? "border-stone-200 bg-white hover:-translate-y-[1px] hover:border-stone-300 hover:bg-stone-50/80 hover:shadow-sm"
+                                : "cursor-default border-stone-100 bg-stone-50/50 text-stone-300",
+                              isToday && "border-emerald-300 bg-emerald-50/50",
+                              isSelected && "border-emerald-500 shadow-[0_0_0_1px_rgba(16,185,129,0.15)]"
+                            )}
+                          >
+                            <div className="grid h-full grid-rows-[auto_84px]">
+                              <div className="flex items-center gap-1.5">
+                                <div
+                                  className={cx(
+                                    "text-sm font-semibold leading-none md:text-base",
+                                    inMonth ? "text-stone-900" : "text-stone-300",
+                                    isToday && "text-emerald-700 font-bold",
+                                    isSelected && !isToday && inMonth && "text-emerald-700"
+                                  )}
+                                >
+                                  {date.getDate()}
+                                </div>
+
+                                {isToday ? (
+                                  <span className="inline-flex items-center rounded-full bg-emerald-600 px-1.5 py-[2px] text-[10px] font-semibold leading-none text-white">
+                                    오늘
+                                  </span>
+                                ) : null}
+                              </div>
+
+                              <div className="grid h-[84px] grid-rows-4 gap-1">
+                                <span
+                                  style={{ visibility: typeCounts.선착순 === 0 ? "hidden" : "visible" }}
+                                  className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-medium leading-none text-sky-700"
+                                >
+                                  {typeCounts.선착순}
+                                </span>
+
+                                <span
+                                  style={{ visibility: typeCounts.추첨접수 === 0 ? "hidden" : "visible" }}
+                                  className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium leading-none text-amber-700"
+                                >
+                                  {typeCounts.추첨접수}
+                                </span>
+
+                                <span
+                                  style={{ visibility: typeCounts.추첨발표 === 0 ? "hidden" : "visible" }}
+                                  className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-violet-50 px-2 py-0.5 text-[11px] font-medium leading-none text-violet-700"
+                                >
+                                  {typeCounts.추첨발표}
+                                </span>
+
+                                <span
+                                  style={{
+                                    visibility:
+                                      typeCounts["미결제/대기예약"] === 0 ? "hidden" : "visible",
+                                  }}
+                                  className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-medium leading-none text-rose-700"
+                                >
+                                  {typeCounts["미결제/대기예약"]}
+                                </span>
+                              </div>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "타임라인" && (
+                <div className="mt-6 border-t border-stone-200 pt-6">
+                  <div className="mb-5 flex items-center justify-center gap-3">
+                    <button
+                      onClick={() => moveMonth(-1)}
+                      className="flex h-10 w-10 items-center justify-center rounded-xl border border-stone-200 bg-white text-lg text-stone-700 transition hover:bg-stone-50"
+                      aria-label="이전 달"
+                    >
+                      ‹
+                    </button>
+
+                    <div className="text-xl font-semibold tracking-tight text-stone-900 md:text-3xl">
+                      {monthLabel}
+                    </div>
+
+                    <button
+                      onClick={() => moveMonth(1)}
+                      className="flex h-10 w-10 items-center justify-center rounded-xl border border-stone-200 bg-white text-lg text-stone-700 transition hover:bg-stone-50"
+                      aria-label="다음 달"
+                    >
+                      ›
+                    </button>
+                  </div>
+
+                  {timelineGroups.length ? (
+                    <div className="grid gap-4">
+                      {timelineGroups.map((dateGroup) => (
+                        <SectionCard
+                          key={dateGroup.date}
+                          className="cursor-pointer bg-white/60 p-4 transition hover:shadow-md"
+                        >
+                          <button
+                            onClick={() => openDateModal(dateGroup.date)}
+                            className="w-full text-left"
+                          >
+                            <div className="mb-4 flex items-center justify-between gap-3">
+                              <div className="text-lg font-semibold text-stone-900 md:text-xl">
+                                {getDateLabel(dateGroup.date)}
+                              </div>
+                              <div className="text-sm font-semibold text-stone-400">›</div>
                             </div>
 
-                            {isToday ? (
-                              <span className="inline-flex items-center rounded-full bg-emerald-600 px-1.5 py-[2px] text-[10px] font-semibold leading-none text-white">
-                                오늘
-                              </span>
+                            <div className="grid gap-3">
+                              {dateGroup.groups.map((group) => (
+                                <div
+                                  key={group.groupKey}
+                                  className="rounded-2xl border border-stone-200 bg-white p-4"
+                                >
+                                  <div className="mb-2 flex flex-wrap gap-2">
+                                    <Badge className="bg-emerald-700 text-white">
+                                      {group.eventTime}
+                                    </Badge>
+                                    <Badge className={getOperatorBadgeClass(group.operatorType)}>
+                                      {group.operatorType}
+                                    </Badge>
+                                    <Badge className={getEventTypeBadgeClass(group.eventType)}>
+                                      {getEventTypeLabel(group.eventType)}
+                                    </Badge>
+                                  </div>
+
+                                  <div className="mb-1 text-sm font-semibold text-stone-900 md:text-base">
+                                    {group.items.length}개 시설
+                                  </div>
+                                  <div className="text-xs text-stone-500 md:text-sm">
+                                    {summarizeZones(group.items)}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </button>
+                        </SectionCard>
+                      ))}
+                    </div>
+                  ) : (
+                    <SectionCard className="border-dashed p-10 text-center text-sm text-stone-500">
+                      이번 달에는 표시할 일정이 없습니다.
+                    </SectionCard>
+                  )}
+                </div>
+              )}
+
+              {activeTab === "숙소검색" && (
+                <div className="mt-6 flex min-h-0 flex-1 flex-col border-t border-stone-200 pt-6">
+                  <div className="mb-4 shrink-0 text-sm text-stone-500">
+                    검색어와 필터에 맞는 숙소를 시설 중심으로 확인할 수 있습니다.
+                  </div>
+
+                  {searchableItems.length ? (
+                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                      {searchableItems.map((item) => (
+                        <SectionCard key={item.id} className="h-full w-full p-4">
+                          <div className="flex h-full flex-col rounded-2xl border border-stone-200 bg-stone-50/70 p-5">
+                            <div className="mb-3 flex flex-wrap gap-2">
+                              <Badge className="bg-sky-50 text-sky-700 ring-1 ring-sky-200">
+                                {item.zone}
+                              </Badge>
+                              <Badge className="bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">
+                                {item.region}
+                              </Badge>
+                            </div>
+
+                            <div className="mb-2 text-xl font-semibold text-stone-900">
+                              {item.name}
+                            </div>
+
+                            <div className="mb-3 text-sm text-stone-600">
+                              {item.facilityType} · {item.operatorType}
+                            </div>
+
+                            {item.firstComeRule ? (
+                              <div className="mb-2.5 text-sm font-semibold leading-7 text-sky-700">
+                                <span className="mr-2 inline-flex rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-bold text-sky-700 ring-1 ring-sky-200">
+                                  선착순
+                                </span>
+                                {item.firstComeRule}
+                              </div>
+                            ) : null}
+
+                            {item.lotteryRule ? (
+                              <div className="mb-2.5 text-sm font-semibold leading-7 text-amber-700">
+                                <span className="mr-2 inline-flex rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-bold text-amber-700 ring-1 ring-amber-200">
+                                  추첨접수
+                                </span>
+                                {item.lotteryRule}
+                              </div>
+                            ) : null}
+
+                            {item.lotteryResult ? (
+                              <div className="mb-2.5 text-sm font-semibold leading-7 text-violet-700">
+                                <span className="mr-2 inline-flex rounded-full bg-violet-50 px-2 py-0.5 text-[11px] font-bold text-violet-700 ring-1 ring-violet-200">
+                                  추첨발표
+                                </span>
+                                {item.lotteryResult}
+                              </div>
+                            ) : null}
+
+                            {item.waitingOpen ? (
+                              <div className="mb-2.5 text-sm font-semibold leading-7 text-rose-700">
+                                <span className="mr-2 inline-flex rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-bold text-rose-700 ring-1 ring-rose-200">
+                                  미결제/대기
+                                </span>
+                                {item.waitingOpen}
+                              </div>
+                            ) : null}
+
+                            {item.lotteryTarget ? (
+                              <div className="mb-2 text-sm leading-6 text-stone-500">
+                                추첨대상 · {item.lotteryTarget}
+                              </div>
+                            ) : null}
+
+                            {item.note ? (
+                              <div className="mb-3 text-sm leading-6 text-stone-500">
+                                비고 · {item.note}
+                              </div>
+                            ) : null}
+
+                            {item.localPriorityPolicy ? (
+                              <div className="mb-3">
+                                <button
+                                  type="button"
+                                  onClick={() => toggleExpand(`${item.id}_policy_search`)}
+                                  className="text-sm font-semibold text-rose-600 hover:text-rose-700"
+                                >
+                                  📌 우선예약 {expandedItems[`${item.id}_policy_search`] ? "▲ 접기" : "▼ 더보기"}
+                                </button>
+
+                                {expandedItems[`${item.id}_policy_search`] ? (
+                                  <div className="mt-2 whitespace-pre-line text-sm leading-6 text-rose-600">
+                                    {item.localPriorityPolicy}
+                                  </div>
+                                ) : null}
+                              </div>
+                            ) : null}
+
+                            {item.recommendedRoomMemo ? (
+                              <div className="mb-3">
+                                <button
+                                  type="button"
+                                  onClick={() => toggleExpand(`${item.id}_recommended_search`)}
+                                  className="text-sm font-semibold text-sky-600 hover:text-sky-700"
+                                >
+                                  ⭐ 추천객실 {expandedItems[`${item.id}_recommended_search`] ? "▲ 접기" : "▼ 더보기"}
+                                </button>
+
+                                {expandedItems[`${item.id}_recommended_search`] ? (
+                                  <div className="mt-2 whitespace-pre-line text-sm leading-6 text-sky-700">
+                                    {item.recommendedRoomMemo}
+                                  </div>
+                                ) : null}
+                              </div>
+                            ) : null}
+
+                            {item.homepage ? (
+                              <a
+                                href={item.homepage}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-sm font-semibold text-emerald-700 hover:text-emerald-800"
+                              >
+                                홈페이지 바로가기 →
+                              </a>
                             ) : null}
                           </div>
-
-                          <div className="grid h-[84px] grid-rows-4 gap-1">
-                            <span
-                              style={{ visibility: typeCounts.선착순 === 0 ? "hidden" : "visible" }}
-                              className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-medium leading-none text-sky-700"
-                            >
-                              {typeCounts.선착순}
-                            </span>
-
-                            <span
-                              style={{ visibility: typeCounts.추첨접수 === 0 ? "hidden" : "visible" }}
-                              className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium leading-none text-amber-700"
-                            >
-                              {typeCounts.추첨접수}
-                            </span>
-
-                            <span
-                              style={{ visibility: typeCounts.추첨발표 === 0 ? "hidden" : "visible" }}
-                              className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-violet-50 px-2 py-0.5 text-[11px] font-medium leading-none text-violet-700"
-                            >
-                              {typeCounts.추첨발표}
-                            </span>
-
-                            <span
-                              style={{
-                                visibility:
-                                  typeCounts["미결제/대기예약"] === 0 ? "hidden" : "visible",
-                              }}
-                              className="inline-flex h-[20px] w-full items-center justify-center rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-medium leading-none text-rose-700"
-                            >
-                              {typeCounts["미결제/대기예약"]}
-                            </span>
-                          </div>
-                        </div>
-                      </button>
-                    );
-                  })}
+                        </SectionCard>
+                      ))}
+                    </div>
+                  ) : (
+                    <SectionCard className="border-dashed p-10 text-center text-sm text-stone-500">
+                      조건에 맞는 숙소가 없습니다.
+                    </SectionCard>
+                  )}
                 </div>
-              </div>
+              )}
             </div>
-          )}
-
-            {activeTab === "타임라인" && (
-              <div className="mt-6 border-t border-stone-200 pt-6">
-                <div className="mb-5 flex items-center justify-center gap-3">
-                  <button
-                    onClick={() => moveMonth(-1)}
-                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-stone-200 bg-white text-lg text-stone-700 transition hover:bg-stone-50"
-                    aria-label="이전 달"
-                  >
-                    ‹
-                  </button>
-
-                  <div className="text-xl font-semibold tracking-tight text-stone-900 md:text-3xl">
-                    {monthLabel}
-                  </div>
-
-                  <button
-                    onClick={() => moveMonth(1)}
-                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-stone-200 bg-white text-lg text-stone-700 transition hover:bg-stone-50"
-                    aria-label="다음 달"
-                  >
-                    ›
-                  </button>
-                </div>
-
-                {timelineGroups.length ? (
-                  <div className="grid gap-4">
-                    {timelineGroups.map((dateGroup) => (
-                      <SectionCard
-                        key={dateGroup.date}
-                        className="cursor-pointer bg-white/60 p-4 transition hover:shadow-md"
-                      >
-                        <button
-                          onClick={() => openDateModal(dateGroup.date)}
-                          className="w-full text-left"
-                        >
-                          <div className="mb-4 flex items-center justify-between gap-3">
-                            <div className="text-lg font-semibold text-stone-900 md:text-xl">
-                              {getDateLabel(dateGroup.date)}
-                            </div>
-                            <div className="text-sm font-semibold text-stone-400">›</div>
-                          </div>
-
-                          <div className="grid gap-3">
-                            {dateGroup.groups.map((group) => (
-                              <div
-                                key={group.groupKey}
-                                className="rounded-2xl border border-stone-200 bg-white p-4"
-                              >
-                                <div className="mb-2 flex flex-wrap gap-2">
-                                  <Badge className="bg-emerald-700 text-white">
-                                    {group.eventTime}
-                                  </Badge>
-                                  <Badge className={getOperatorBadgeClass(group.operatorType)}>
-                                    {group.operatorType}
-                                  </Badge>
-                                  <Badge className={getEventTypeBadgeClass(group.eventType)}>
-                                    {getEventTypeLabel(group.eventType)}
-                                  </Badge>
-                                </div>
-
-                                <div className="mb-1 text-sm font-semibold text-stone-900 md:text-base">
-                                  {group.items.length}개 시설
-                                </div>
-                                <div className="text-xs text-stone-500 md:text-sm">
-                                  {summarizeZones(group.items)}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </button>
-                      </SectionCard>
-                    ))}
-                  </div>
-                ) : (
-                  <SectionCard className="border-dashed p-10 text-center text-sm text-stone-500">
-                    이번 달에는 표시할 일정이 없습니다.
-                  </SectionCard>
-                )}
-              </div>
-            )}
-
-            {activeTab === "숙소검색" && (
-              <div className="mt-6 flex min-h-0 flex-1 flex-col border-t border-stone-200 pt-6">
-                <div className="mb-4 shrink-0 text-sm text-stone-500">
-                  검색어와 필터에 맞는 숙소를 시설 중심으로 확인할 수 있습니다.
-                </div>
-
-                {searchableItems.length ? (
-                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                    {searchableItems.map((item) => (
-                                            <SectionCard key={item.id} className="p-4 w-full h-full">
-                        <div className="rounded-2xl border border-stone-200 bg-stone-50/70 p-5 h-full flex flex-col">
-                          <div className="mb-3 flex flex-wrap gap-2">
-                            <Badge className="bg-sky-50 text-sky-700 ring-1 ring-sky-200">
-                              {item.zone}
-                            </Badge>
-                            <Badge className="bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">
-                              {item.region}
-                            </Badge>
-                          </div>
-
-                          <div className="mb-2 text-xl font-semibold text-stone-900">
-                            {item.name}
-                          </div>
-
-                          <div className="mb-3 text-sm text-stone-600">
-                            {item.facilityType} · {item.operatorType}
-                          </div>
-
-                          {item.firstComeRule ? (
-                            <div className="mb-2.5 text-sm font-semibold leading-7 text-sky-700">
-                              <span className="mr-2 inline-flex rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-bold text-sky-700 ring-1 ring-sky-200">
-                                선착순
-                              </span>
-                              {item.firstComeRule}
-                            </div>
-                          ) : null}
-
-                          {item.lotteryRule ? (
-                            <div className="mb-2.5 text-sm font-semibold leading-7 text-amber-700">
-                              <span className="mr-2 inline-flex rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-bold text-amber-700 ring-1 ring-amber-200">
-                                추첨접수
-                              </span>
-                              {item.lotteryRule}
-                            </div>
-                          ) : null}
-
-                          {item.lotteryResult ? (
-                            <div className="mb-2.5 text-sm font-semibold leading-7 text-violet-700">
-                              <span className="mr-2 inline-flex rounded-full bg-violet-50 px-2 py-0.5 text-[11px] font-bold text-violet-700 ring-1 ring-violet-200">
-                                추첨발표
-                              </span>
-                              {item.lotteryResult}
-                            </div>
-                          ) : null}
-
-                          {item.waitingOpen ? (
-                            <div className="mb-2.5 text-sm font-semibold leading-7 text-rose-700">
-                              <span className="mr-2 inline-flex rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-bold text-rose-700 ring-1 ring-rose-200">
-                                미결제/대기
-                              </span>
-                              {item.waitingOpen}
-                            </div>
-                          ) : null}
-
-                          {item.lotteryTarget ? (
-                            <div className="mb-2 text-sm leading-6 text-stone-500">
-                              추첨대상 · {item.lotteryTarget}
-                            </div>
-                          ) : null}
-
-                          {item.note ? (
-                            <div className="mb-3 text-sm leading-6 text-stone-500">
-                              비고 · {item.note}
-                            </div>
-                          ) : null}
-
-                          {item.localPriorityPolicy ? (
-                            <div className="mb-3">
-                              <button
-                                type="button"
-                                onClick={() => toggleExpand(`${item.id}_policy_search`)}
-                                className="text-sm font-semibold text-rose-600 hover:text-rose-700"
-                              >
-                                📌 우선예약 {expandedItems[`${item.id}_policy_search`] ? "▲ 접기" : "▼ 더보기"}
-                              </button>
-
-                              {expandedItems[`${item.id}_policy_search`] ? (
-                                <div className="mt-2 whitespace-pre-line text-sm leading-6 text-rose-600">
-                                  {item.localPriorityPolicy}
-                                </div>
-                              ) : null}
-                            </div>
-                          ) : null}
-
-                          {item.recommendedRoomMemo ? (
-                            <div className="mb-3">
-                              <button
-                                type="button"
-                                onClick={() => toggleExpand(`${item.id}_recommended_search`)}
-                                className="text-sm font-semibold text-sky-600 hover:text-sky-700"
-                              >
-                                ⭐ 추천객실 {expandedItems[`${item.id}_recommended_search`] ? "▲ 접기" : "▼ 더보기"}
-                              </button>
-
-                              {expandedItems[`${item.id}_recommended_search`] ? (
-                                <div className="mt-2 whitespace-pre-line text-sm leading-6 text-sky-700">
-                                  {item.recommendedRoomMemo}
-                                </div>
-                              ) : null}
-                            </div>
-                          ) : null}
-
-                          {item.homepage ? (
-                            <a
-                              href={item.homepage}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="text-sm font-semibold text-emerald-700 hover:text-emerald-800"
-                            >
-                              홈페이지 바로가기 →
-                            </a>
-                          ) : null}
-                        </div>
-                      </SectionCard>
-                    ))}
-                  </div>
-                ) : (
-                  <SectionCard className="border-dashed p-10 text-center text-sm text-stone-500">
-                    조건에 맞는 숙소가 없습니다.
-                  </SectionCard>
-                )}
-              </div>
-            )}
           </div>
-        </div>
-      </SectionCard>
+        </SectionCard>
 
-      {isModalOpen && selectedDate && (
+        {isModalOpen && selectedDate && (
           <div
             onClick={closeModal}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
@@ -1418,7 +1542,12 @@ const eventTypeCountByDate = useMemo(() => {
               onClick={(e) => e.stopPropagation()}
               className="grid h-[90vh] w-full max-w-7xl overflow-hidden rounded-3xl bg-white shadow-2xl md:grid-cols-[320px_1fr]"
             >
-              <section className="overflow-y-auto border-b border-stone-200 p-4 md:border-b-0 md:border-r md:p-5">
+              <section
+  className="date-modal-scroll overflow-y-auto border-b border-stone-200 p-4 md:border-b-0 md:border-r md:p-5"
+  onScroll={(e) => {
+    setShowScrollTop(e.currentTarget.scrollTop > 40);
+  }}
+>
                 <div className="mb-4 flex items-start justify-between gap-3">
                   <div>
                     <div className="mb-1 text-xl font-semibold text-stone-900 md:text-2xl">
@@ -1438,43 +1567,72 @@ const eventTypeCountByDate = useMemo(() => {
                   </button>
                 </div>
 
-                <div className="grid gap-3">
-                  {groupedForSelectedDate.map((group) => {
-                    const active = currentGroup?.groupKey === group.groupKey;
-                    return (
-                      <button
-                        key={group.groupKey}
-                        onClick={() => setSelectedGroupKey(group.groupKey)}
-                        className={cx(
-                          "w-full rounded-2xl border p-4 text-left transition",
-                          active
-                            ? "border-emerald-500 bg-emerald-50 ring-2 ring-emerald-100"
-                            : "border-stone-200 bg-white hover:shadow-sm"
-                        )}
-                      >
-                        <div className="mb-2 flex flex-wrap gap-2">
-                          <Badge className="bg-emerald-700 text-white">{group.eventTime}</Badge>
-                          <Badge className={getOperatorBadgeClass(group.operatorType)}>
-                            {group.operatorType}
-                          </Badge>
-                          <Badge className={getEventTypeBadgeClass(group.eventType)}>
-                            {getEventTypeLabel(group.eventType)}
-                          </Badge>
-                        </div>
+{groupedForSelectedDate.length > 0 ? (
+  <div className="grid gap-3">
+    {groupedForSelectedDate.map((group) => {
+      const active = currentGroup?.groupKey === group.groupKey;
+      return (
+        <button
+          key={group.groupKey}
+          onClick={() => {
+            if (isMobile) {
+              setMobileGroup(group);
+              setIsGroupDetailOpen(true);
+              return;
+            }
 
-                        <div className="mb-1 text-sm font-semibold text-stone-900 md:text-base">
-                          {group.items.length}개 시설
-                        </div>
-                        <div className="text-xs text-stone-500 md:text-sm">
-                          {summarizeZones(group.items)}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
+            setSelectedGroupKey(group.groupKey);
+          }}
+          className={cx(
+            "w-full rounded-2xl border p-4 text-left transition",
+            active
+              ? "border-emerald-500 bg-emerald-50 ring-2 ring-emerald-100"
+              : "border-stone-200 bg-white hover:shadow-sm"
+          )}
+        >
+          <div className="mb-2 flex flex-wrap gap-2">
+            <Badge className="bg-emerald-700 text-white">{group.eventTime}</Badge>
+            <Badge className={getOperatorBadgeClass(group.operatorType)}>
+              {group.operatorType}
+            </Badge>
+            <Badge className={getEventTypeBadgeClass(group.eventType)}>
+              {getEventTypeLabel(group.eventType)}
+            </Badge>
+          </div>
+
+          <div className="mb-1 text-sm font-semibold text-stone-900 md:text-base">
+            {group.items.length}개 시설
+          </div>
+          <div className="text-xs text-stone-500 md:text-sm">
+            {summarizeZones(group.items)}
+          </div>
+        </button>
+      );
+    })}
+  </div>
+) : (
+  <div className="rounded-2xl border border-dashed border-stone-300 bg-stone-50 py-10 text-center text-sm text-stone-500">
+    선택된 날짜에 해당하는 일정이 없습니다.
+  </div>
+)}
               </section>
 
-              <section className="overflow-y-auto bg-white/70 p-4 md:p-5">
+              {showScrollTop && (
+                <button
+                  onClick={() => {
+                    const el = document.querySelector(".date-modal-scroll");
+                    if (el) {
+                      el.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }}
+                  className="fixed bottom-20 right-5 z-[70] flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg transition hover:scale-105 hover:bg-emerald-700 md:bottom-6 md:right-6"
+                  aria-label="맨 위로 이동"
+                >
+                  ↑
+                </button>
+              )}
+
+              <section className="hidden overflow-y-auto bg-white/70 p-4 md:block md:p-5">
                 {currentGroup ? (
                   <SectionCard className="p-4 md:p-5">
                     <div className="mb-5">
@@ -1599,6 +1757,7 @@ const eventTypeCountByDate = useMemo(() => {
                               </div>
                             ) : null}
 
+
                             {item.homepage ? (
                               <a
                                 href={item.homepage}
@@ -1615,11 +1774,193 @@ const eventTypeCountByDate = useMemo(() => {
                     </div>
                   </SectionCard>
                 ) : (
-                  <SectionCard className="border-dashed p-10 text-center text-sm text-stone-500">
-                    선택한 날짜에 해당하는 일정이 없습니다.
-                  </SectionCard>
+                  !isMobile && (
+                    <div className="flex h-full items-center justify-center text-sm text-stone-400">
+                      좌측에서 항목을 선택하세요
+                    </div>
+                  )
                 )}
               </section>
+
+              {isGroupDetailOpen && mobileGroup && (
+                <div
+                  onClick={() => setIsGroupDetailOpen(false)}
+                  className="fixed inset-0 z-[60] flex items-end bg-black/40 md:hidden"
+                >
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex max-h-[85vh] w-full flex-col rounded-t-3xl bg-white shadow-2xl"
+                  >
+                    <div className="shrink-0 flex items-start justify-between gap-3 rounded-t-3xl border-b border-stone-200 bg-white px-4 py-4">
+                      <div>
+                        <div className="mb-2 flex flex-wrap gap-2">
+                          <Badge className="bg-emerald-700 text-white">
+                            {mobileGroup.eventTime}
+                          </Badge>
+                          <Badge className={getOperatorBadgeClass(mobileGroup.operatorType)}>
+                            {mobileGroup.operatorType}
+                          </Badge>
+                          <Badge className={getEventTypeBadgeClass(mobileGroup.eventType)}>
+                            {getEventTypeLabel(mobileGroup.eventType)}
+                          </Badge>
+                        </div>
+
+                        <h3 className="text-xl font-semibold text-stone-900">
+                          {mobileGroup.operatorType} · {getEventTypeLabel(mobileGroup.eventType)} ·{" "}
+                          {mobileGroup.eventTime}
+                        </h3>
+
+                        <div className="mt-1 text-sm text-stone-500">
+                          {mobileGroup.items.length}개 시설 · {summarizeZones(mobileGroup.items)}
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={closeGroupDetail}
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 text-xl font-semibold text-stone-600"
+                        aria-label="닫기"
+                      >
+                        ×
+                      </button>
+                    </div>
+
+                    <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-4">
+                      <div className="grid gap-4">
+                      {mobileGroup.items.map((item) => (
+                        <div
+                          key={`${item.id}_${item.eventDate}_${item.eventType}_mobile`}
+                          className="rounded-2xl border border-stone-200 bg-white p-4"
+                        >
+                          <div className="mb-3 flex flex-wrap gap-2">
+                            <Badge className="bg-sky-50 text-sky-700 ring-1 ring-sky-200">
+                              {item.zone}
+                            </Badge>
+                            <Badge className="bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">
+                              {item.region}
+                            </Badge>
+                          </div>
+
+                          <div className="mb-2 text-lg font-semibold text-stone-900">
+                            {item.name}
+                          </div>
+
+                          <div className="mb-3 text-sm text-stone-600">
+                            {item.facilityType} · {item.operatorType}
+                          </div>
+
+                          {item.eventType === "선착순" && item.firstComeRule ? (
+                            <div className="mb-2 text-sm font-semibold leading-6 text-sky-700">
+                              {item.firstComeRule}
+                            </div>
+                          ) : null}
+
+                          {item.eventType === "추첨접수" && item.lotteryRule ? (
+                            <div className="mb-2 text-sm font-semibold leading-6 text-amber-700">
+                              {item.lotteryRule}
+                            </div>
+                          ) : null}
+
+                          {item.eventType === "추첨발표" && item.lotteryResult ? (
+                            <div className="mb-2 text-sm font-semibold leading-6 text-violet-700">
+                              {item.lotteryResult}
+                            </div>
+                          ) : null}
+
+                          {item.eventType === "미결제/대기예약" && item.waitingOpen ? (
+                            <div className="mb-2 text-sm font-semibold leading-6 text-rose-700">
+                              {item.waitingOpen}
+                            </div>
+                          ) : null}
+
+                          {item.lotteryTarget ? (
+                            <div className="mb-2 text-sm leading-6 text-stone-500">
+                              추첨대상 · {item.lotteryTarget}
+                            </div>
+                          ) : null}
+
+                          {item.note ? (
+                            <div className="mb-3 text-sm leading-6 text-stone-500">
+                              비고 · {item.note}
+                            </div>
+                          ) : null}
+
+                          {/* 🔥 우선예약 추가 */}
+                          {item.localPriorityPolicy ? (
+                            <div className="mb-3">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  toggleExpand(
+                                    `${item.id}_${item.eventDate}_${item.eventType}_policy_mobile`
+                                  )
+                                }
+                                className="text-sm font-semibold text-rose-600 hover:text-rose-700"
+                              >
+                                📌 우선예약{" "}
+                                {expandedItems[
+                                  `${item.id}_${item.eventDate}_${item.eventType}_policy_mobile`
+                                ]
+                                  ? "▲ 접기"
+                                  : "▼ 더보기"}
+                              </button>
+
+                              {expandedItems[
+                                `${item.id}_${item.eventDate}_${item.eventType}_policy_mobile`
+                              ] ? (
+                                <div className="mt-2 whitespace-pre-line text-sm leading-6 text-rose-600">
+                                  {item.localPriorityPolicy}
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : null}
+
+                          {/* 🔥 추천객실 (이미 추가됨) */}
+                          {item.recommendedRoomMemo ? (
+                            <div className="mb-3">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  toggleExpand(
+                                    `${item.id}_${item.eventDate}_${item.eventType}_recommended_mobile`
+                                  )
+                                }
+                                className="text-sm font-semibold text-sky-600 hover:text-sky-700"
+                              >
+                                ⭐ 추천객실{" "}
+                                {expandedItems[
+                                  `${item.id}_${item.eventDate}_${item.eventType}_recommended_mobile`
+                                ]
+                                  ? "▲ 접기"
+                                  : "▼ 더보기"}
+                              </button>
+
+                              {expandedItems[
+                                `${item.id}_${item.eventDate}_${item.eventType}_recommended_mobile`
+                              ] ? (
+                                <div className="mt-2 whitespace-pre-line text-sm leading-6 text-sky-700">
+                                  {item.recommendedRoomMemo}
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : null}
+
+                          {item.homepage ? (
+                            <a
+                              href={item.homepage}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-sm font-semibold text-emerald-700 hover:text-emerald-800"
+                            >
+                              홈페이지 바로가기 →
+                            </a>
+                          ) : null}
+                        </div>
+                      ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
