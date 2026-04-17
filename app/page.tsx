@@ -1263,28 +1263,20 @@ export default function Home() {
                           >
                             <div className="flex h-full w-full flex-col">
                               <div className="flex w-full items-start justify-start">
-                                <div
-                                  className={cx(
-                                    "inline-flex items-center justify-center rounded-full text-sm font-bold leading-none md:text-base",
-                                    isToday
-                                      ? "bg-emerald-600 text-white"
-                                      : inMonth
-                                      ? "text-stone-900"
-                                      : "text-stone-300",
-                                    !isToday && isSelected && inMonth && "text-emerald-700"
-                                  )}
-                                  style={
-                                    isToday
-                                      ? {
-                                          width: "30px",
-                                          height: "30px",
-                                          backgroundColor: "#059669",
-                                          color: "#ffffff",
-                                        }
-                                      : undefined
-                                  }
-                                >
-                                  {date.getDate()}
+                                <div className="flex h-[30px] w-[30px] items-center justify-center">
+                                  <div
+                                    className={cx(
+                                      "flex h-[30px] w-[30px] items-center justify-center rounded-full text-sm font-bold leading-none md:text-base",
+                                      isToday
+                                        ? "bg-emerald-600 text-white"
+                                        : inMonth
+                                        ? "text-stone-900"
+                                        : "text-stone-300",
+                                      !isToday && isSelected && inMonth && "text-emerald-700"
+                                    )}
+                                  >
+                                    {date.getDate()}
+                                  </div>
                                 </div>
                               </div>
 
