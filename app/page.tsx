@@ -1280,8 +1280,9 @@ export default function Home() {
                                 </div>
                               </div>
 
-                              <div className="mt-auto flex w-full flex-col gap-1 pt-1.5 md:gap-1.5 md:pt-2">
-                                <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
+                              <div className="flex flex-1 items-center justify-center">
+                                <div className="flex w-full flex-col gap-1 md:mt-auto md:gap-1.5 md:pt-2">
+                                  <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
                                   <span
                                     style={{ visibility: typeCounts.선착순 === 0 ? "hidden" : "visible" }}
                                     className="flex w-full max-w-[108px] items-center justify-center rounded-full bg-sky-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-sky-700 md:h-[20px] md:text-[11px]"
@@ -1321,6 +1322,7 @@ export default function Home() {
                                 </div>
                               </div>
                             </div>
+                          </div>
                           </button>
                         );
                       })}
