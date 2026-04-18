@@ -1253,7 +1253,7 @@ export default function Home() {
                               openDateModal(key);
                             }}
                             className={cx(
-                              "group relative flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border px-3 py-3 text-left transition-all duration-200 md:h-full md:px-4 md:py-4",
+                              "group relative flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border px-2 py-2 text-left transition-all duration-200 md:h-full md:px-4 md:py-4",
                               inMonth
                                 ? "border-stone-200 bg-white hover:-translate-y-[1px] hover:border-stone-300 hover:bg-stone-50/80 hover:shadow-sm"
                                 : "cursor-default border-stone-100 bg-stone-50/50 text-stone-300",
