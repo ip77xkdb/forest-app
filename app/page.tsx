@@ -1807,7 +1807,7 @@ export default function Home() {
                     onClick={(e) => e.stopPropagation()}
                     className="flex max-h-[85vh] w-full flex-col rounded-t-3xl bg-white shadow-2xl"
                   >
-                    <div className="shrink-0 flex items-start justify-between gap-3 rounded-t-3xl border-b border-stone-200 bg-white px-4 py-4">
+                    <div className="shrink-0 flex items-center justify-between gap-3 rounded-t-3xl border-b border-stone-200 bg-white px-4 py-3">
                       <div>
                         <div className="mb-2 flex flex-wrap gap-2">
                           <Badge className="bg-emerald-700 text-white">
