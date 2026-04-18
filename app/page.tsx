@@ -1801,11 +1801,11 @@ export default function Home() {
               {isGroupDetailOpen && mobileGroup && (
                 <div
                   onClick={() => setIsGroupDetailOpen(false)}
-                  className="fixed inset-0 z-[60] flex items-end bg-black/40 md:hidden"
+                  className="fixed inset-0 z-[60] flex items-start bg-black/40 px-3 pt-24 md:hidden"
                 >
                   <div
                     onClick={(e) => e.stopPropagation()}
-                    className="flex max-h-[85vh] w-full flex-col rounded-t-3xl bg-white shadow-2xl"
+                    className="flex max-h-[85vh] w-full flex-col rounded-3xl bg-white shadow-2xl"
                   >
                     <div className="shrink-0 flex items-center justify-between gap-3 rounded-t-3xl border-b border-stone-200 bg-white px-4 py-3">
                       <div>
