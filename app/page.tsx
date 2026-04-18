@@ -1263,10 +1263,10 @@ export default function Home() {
                           >
                             <div className="flex h-full w-full flex-col">
                               <div className="flex w-full items-start justify-start">
-                                <div className="flex h-[30px] w-[30px] items-center justify-center">
+                                <div className="flex h-[28px] w-[28px] items-center justify-center md:h-[30px] md:w-[30px]">
                                   <div
                                     className={cx(
-                                      "flex h-[30px] w-[30px] items-center justify-center rounded-full text-sm font-bold leading-none md:text-base",
+                                      "flex h-[28px] w-[28px] items-center justify-center rounded-full text-sm font-bold leading-none md:h-[30px] md:w-[30px] md:text-base",
                                       isToday
                                         ? "bg-emerald-600 text-white"
                                         : inMonth
