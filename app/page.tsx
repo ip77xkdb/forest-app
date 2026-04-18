@@ -915,7 +915,11 @@ export default function Home() {
                 <div className="space-y-1">
                   <div>
                       <div className="flex items-center gap-2.5">
-                        <span style={{ fontSize: "30px" }}>🏕️</span>
+                        <img
+                          src="/icon.png"
+                          alt="ForestTime"
+                          className="h-[50px] w-[50px] object-contain"
+                        />
 
                         <h1
                           className="font-extrabold tracking-[-0.5px]"
