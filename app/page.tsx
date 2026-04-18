@@ -654,7 +654,7 @@ export default function Home() {
   const [selectedFacility, setSelectedFacility] = useState("전체");
   const [selectedZone, setSelectedZone] = useState("전체");
   const [selectedEventFilter, setSelectedEventFilter] = useState<EventFilterOption>("전체");
-  const [sortMode, setSortMode] = useState<SortOption>("이름순");
+  const [sortMode, setSortMode] = useState<SortOption>("권역순");
   const [activeTab, setActiveTab] = useState<ViewTab>("캘린더");
   const [query, setQuery] = useState("");
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
