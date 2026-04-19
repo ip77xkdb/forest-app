@@ -800,10 +800,11 @@ export default function Home() {
       })
       .sort(
         (a, b) =>
+          a.eventTime.localeCompare(b.eventTime) ||
           getOperatorOrder(a.operatorType) - getOperatorOrder(b.operatorType) ||
-          getEventTypeOrder(a.eventType) - getEventTypeOrder(b.eventType) ||
-          a.eventTime.localeCompare(b.eventTime)
+          getEventTypeOrder(a.eventType) - getEventTypeOrder(b.eventType)
       );
+
   }, [eventsForSelectedDate, sortMode]);
 
   const currentGroup = useMemo(() => {
