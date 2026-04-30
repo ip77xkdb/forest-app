@@ -1577,7 +1577,7 @@
     "waitingOpen": "",
     "note": "(다음월  선착순)",
     "homepage": "https://www.foresttrip.go.kr/indvz/main.do?hmpgId=ID02030042",
-    "localPriorityPolicy": "매달 1일 09:00 ~ 2일 23:59",
+    "localPriorityPolicy": "매월 1일 09:00 ~ 2일 23:59 (지역주민우선예약)\n매월 3일 09:00 (일반예약전환)",
     "recommendedRoomMemo": "4인실\n→ 주목나무, 잣나무\n→ 평일 50,000 / 주말 70,000\n\n8인실\n→ 사과, 복숭아\n→ 평일 100,000 / 주말 140,000\n\n주의\n→ 전 객실 지역주민 우선배정\n\n예약\n→ 매월 3일 09시 선착순"
   },
   {
