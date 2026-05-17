@@ -337,7 +337,7 @@
     "note": "6주차",
     "homepage": "https://www.foresttrip.go.kr/indvz/main.do?hmpgId=0242",
     "localPriorityPolicy": "",
-    "recommendedRoomMemo": ""
+    "recommendedRoomMemo": "연립동C동(신축) 2022년\n5인실(구조동일)\n평일 58,000원 / 주말 106,000원\n2층 신선봉, 수리봉 추천"
   },
   {
     "id": 21,
@@ -1340,7 +1340,7 @@
     "note": "(6주차 화요일까지 1주일치)",
     "homepage": "https://www.foresttrip.go.kr/indvz/main.do?hmpgId=ID02030008",
     "localPriorityPolicy": "도민 및 도내 소재 가족친화인증 기업·기관 재직자는 숙박시설의 40퍼센트 범위에서 우선 예약",
-    "recommendedRoomMemo": ""
+    "recommendedRoomMemo": "신축2인실 21호~25호\n평일 48,000원 / 주말 80,000원\n23,24호가 위쪽이라 프라이빗한데 주차장과 거리가 있어 짐나르기 힘듬"
   },
   {
     "id": 80,
@@ -1357,7 +1357,7 @@
     "note": "(6주차 화요일까지 1주일치)",
     "homepage": "https://www.foresttrip.go.kr/indvz/main.do?hmpgId=ID02030009",
     "localPriorityPolicy": "",
-    "recommendedRoomMemo": ""
+    "recommendedRoomMemo": "정감록명당체험마을\n물고기자리4인 평일 126,000원 / 주말 180,000원"
   },
   {
     "id": 81,
@@ -1566,6 +1566,23 @@
   {
     "id": 93,
     "zone": "충북",
+    "region": "청주시상당구",
+    "name": "미원별빛자연휴양림",
+    "facilityType": "자연휴양림",
+    "operatorType": "공립",
+    "firstComeRule": "매월 05일 10시",
+    "lotteryRule": "매월 01일 10시 ~ 04일 23시59분",
+    "lotteryTarget": "주말",
+    "lotteryResult": "매월 05일 10시",
+    "waitingOpen": "매월 05일 10시",
+    "note": "다음월",
+    "homepage": "https://www.foresttrip.go.kr/indvz/main.do?hmpgId=ID02030132",
+    "localPriorityPolicy": "",
+    "recommendedRoomMemo": ""
+  },
+  {
+    "id": 94,
+    "zone": "충북",
     "region": "충주시",
     "name": "계명산자연휴양림",
     "facilityType": "자연휴양림",
@@ -1581,7 +1598,7 @@
     "recommendedRoomMemo": "4인실\n→ 주목나무, 잣나무\n→ 평일 50,000 / 주말 70,000\n\n8인실\n→ 사과, 복숭아\n→ 평일 100,000 / 주말 140,000\n\n주의\n→ 전 객실 지역주민 우선배정\n\n예약\n→ 매월 3일 09시 선착순"
   },
   {
-    "id": 94,
+    "id": 95,
     "zone": "충북",
     "region": "충주시",
     "name": "문성자연휴양림",
@@ -1598,7 +1615,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 95,
+    "id": 96,
     "zone": "충북",
     "region": "충주시",
     "name": "봉황자연휴양림",
@@ -1615,7 +1632,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 96,
+    "id": 97,
     "zone": "대전/충남",
     "region": "공주시",
     "name": "공주산림휴양마을",
@@ -1632,7 +1649,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 97,
+    "id": 98,
     "zone": "대전/충남",
     "region": "금산군",
     "name": "금산산림문화타운(남이자연휴양림)",
@@ -1649,7 +1666,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 98,
+    "id": 99,
     "zone": "대전/충남",
     "region": "논산시",
     "name": "양촌자연휴양림",
@@ -1666,7 +1683,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 99,
+    "id": 100,
     "zone": "대전/충남",
     "region": "동구",
     "name": "만인산자연휴양림",
@@ -1683,7 +1700,7 @@
     "recommendedRoomMemo": "6인실\n→ 계수나무, 느티나무, 비목나무, 산벚나무, 신갈나무\n→ 평일 75,000 / 주말 134,000\n\n추천\n→ 계수나무 (독립적 위치)"
   },
   {
-    "id": 100,
+    "id": 101,
     "zone": "대전/충남",
     "region": "보령시",
     "name": "성주산자연휴양림",
@@ -1700,7 +1717,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 101,
+    "id": 102,
     "zone": "대전/충남",
     "region": "보령시",
     "name": "원산도자연휴양림",
@@ -1717,7 +1734,7 @@
     "recommendedRoomMemo": "4인실\n→ 파도채 1~4호, 솔향채 1,3,5호\n→ 평일 58,000 / 주말 106,000\n\n6인실\n→ 솔향채 2,4호\n→ 평일 75,000 / 주말 134,000"
   },
   {
-    "id": 102,
+    "id": 103,
     "zone": "대전/충남",
     "region": "부여군",
     "name": "만수산자연휴양림",
@@ -1734,7 +1751,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 103,
+    "id": 104,
     "zone": "대전/충남",
     "region": "서구",
     "name": "장태산자연휴양림",
@@ -1751,7 +1768,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 104,
+    "id": 105,
     "zone": "대전/충남",
     "region": "아산시",
     "name": "영인산 자연휴양림",
@@ -1768,7 +1785,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 105,
+    "id": 106,
     "zone": "대전/충남",
     "region": "예산군",
     "name": "봉수산자연휴양림",
@@ -1785,7 +1802,7 @@
     "recommendedRoomMemo": "6인실\n→ 단풍나무, 때죽나무\n→ 평일 75,000 / 주말 134,000"
   },
   {
-    "id": 106,
+    "id": 107,
     "zone": "대전/충남",
     "region": "천안시동남구",
     "name": "태학산자연휴양림",
@@ -1802,7 +1819,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 107,
+    "id": 108,
     "zone": "대전/충남",
     "region": "청양군",
     "name": "칠갑산자연휴양림",
@@ -1819,7 +1836,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 108,
+    "id": 109,
     "zone": "대전/충남",
     "region": "태안군",
     "name": "안면도자연휴양림",
@@ -1836,7 +1853,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 109,
+    "id": 110,
     "zone": "대전/충남",
     "region": "홍성군",
     "name": "용봉산자연휴양림",
@@ -1853,7 +1870,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 110,
+    "id": 111,
     "zone": "전북",
     "region": "김제시",
     "name": "김제 선암자연휴양림",
@@ -1870,7 +1887,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 111,
+    "id": 112,
     "zone": "전북",
     "region": "무주군",
     "name": "무주향로산자연휴양림",
@@ -1887,7 +1904,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 112,
+    "id": 113,
     "zone": "전북",
     "region": "완주군",
     "name": "고산자연휴양림",
@@ -1904,7 +1921,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 113,
+    "id": 114,
     "zone": "전북",
     "region": "임실군",
     "name": "성수산왕의숲자연휴양림",
@@ -1921,7 +1938,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 114,
+    "id": 115,
     "zone": "전북",
     "region": "장수군",
     "name": "방화동자연휴양림",
@@ -1938,7 +1955,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 115,
+    "id": 116,
     "zone": "전북",
     "region": "장수군",
     "name": "와룡자연휴양림",
@@ -1955,7 +1972,7 @@
     "recommendedRoomMemo": "5인실\n→ 산막1호 (소나무)\n→ 평일 90,000 / 주말 150,000\n\n4인실\n→ 산막2호(은행나무), 산막3호(느티나무)\n→ 평일 72,000 / 주말 120,000"
   },
   {
-    "id": 116,
+    "id": 117,
     "zone": "전북",
     "region": "정읍시",
     "name": "내장산자연휴양림",
@@ -1972,7 +1989,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 117,
+    "id": 118,
     "zone": "전북",
     "region": "진안군",
     "name": "데미샘자연휴양림",
@@ -1989,7 +2006,7 @@
     "recommendedRoomMemo": "8인실\n→ 내동산 1,2호\n→ 평일 161,000 / 주말 230,000\n\n4인실\n→ 덕태산 1~4호\n→ 평일 112,000 / 주말 160,000"
   },
   {
-    "id": 118,
+    "id": 119,
     "zone": "광주/전남",
     "region": "강진군",
     "name": "주작산자연휴양림",
@@ -2006,7 +2023,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 119,
+    "id": 120,
     "zone": "광주/전남",
     "region": "고흥군",
     "name": "팔영산자연휴양림",
@@ -2023,7 +2040,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 120,
+    "id": 121,
     "zone": "광주/전남",
     "region": "광양시",
     "name": "광양백운산자연휴양림",
@@ -2040,7 +2057,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 121,
+    "id": 122,
     "zone": "광주/전남",
     "region": "구례군",
     "name": "산수유자연휴양림",
@@ -2057,7 +2074,7 @@
     "recommendedRoomMemo": "8인실\n→ 두루미꽃\n→ 평일 110,000 / 주말 130,000\n\n6인실\n→ 양지꽃\n→ 평일 80,000 / 주말 100,000\n\n추천\n→ 꽃 이름 객실 (신축, 전망 좋음)"
   },
   {
-    "id": 122,
+    "id": 123,
     "zone": "광주/전남",
     "region": "보성군",
     "name": "제암산자연휴양림",
@@ -2074,7 +2091,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 123,
+    "id": 124,
     "zone": "광주/전남",
     "region": "순천시",
     "name": "순천자연휴양림",
@@ -2091,7 +2108,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 124,
+    "id": 125,
     "zone": "광주/전남",
     "region": "여수시",
     "name": "여수봉황산자연휴양림",
@@ -2108,7 +2125,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 125,
+    "id": 126,
     "zone": "광주/전남",
     "region": "영암군",
     "name": "기찬자연휴양림",
@@ -2125,7 +2142,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 126,
+    "id": 127,
     "zone": "광주/전남",
     "region": "완도군",
     "name": "전라남도 완도자연휴양림",
@@ -2142,7 +2159,7 @@
     "recommendedRoomMemo": "5인실\n→ 다정큼나무방(05), 굴거리나무방(08)\n→ 평일 80,000 / 주말 100,000"
   },
   {
-    "id": 127,
+    "id": 128,
     "zone": "광주/전남",
     "region": "해남군",
     "name": "흑석산자연휴양림",
@@ -2159,7 +2176,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 128,
+    "id": 129,
     "zone": "광주/전남",
     "region": "화순군",
     "name": "백아산자연휴양림",
@@ -2176,7 +2193,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 129,
+    "id": 130,
     "zone": "광주/전남",
     "region": "화순군",
     "name": "한천자연휴양림",
@@ -2193,7 +2210,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 130,
+    "id": 131,
     "zone": "대구/경북",
     "region": "경주시",
     "name": "토함산자연휴양림",
@@ -2210,7 +2227,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 131,
+    "id": 132,
     "zone": "대구/경북",
     "region": "고령군",
     "name": "미숭산자연휴양림",
@@ -2227,7 +2244,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 132,
+    "id": 133,
     "zone": "대구/경북",
     "region": "구미시",
     "name": "옥성자연휴양림",
@@ -2244,7 +2261,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 133,
+    "id": 134,
     "zone": "대구/경북",
     "region": "군위군",
     "name": "군위장곡자연휴양림",
@@ -2261,7 +2278,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 134,
+    "id": 135,
     "zone": "대구/경북",
     "region": "김천시",
     "name": "수도산자연휴양림",
@@ -2278,7 +2295,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 135,
+    "id": 136,
     "zone": "대구/경북",
     "region": "달성군",
     "name": "비슬산자연휴양림",
@@ -2295,7 +2312,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 136,
+    "id": 137,
     "zone": "대구/경북",
     "region": "달성군",
     "name": "화원자연휴양림",
@@ -2312,7 +2329,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 137,
+    "id": 138,
     "zone": "대구/경북",
     "region": "봉화군",
     "name": "문수산자연휴양림",
@@ -2329,7 +2346,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 138,
+    "id": 139,
     "zone": "대구/경북",
     "region": "상주시",
     "name": "성주봉자연휴양림",
@@ -2346,7 +2363,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 139,
+    "id": 140,
     "zone": "대구/경북",
     "region": "성주군",
     "name": "독용산성자연휴양림",
@@ -2363,7 +2380,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 140,
+    "id": 141,
     "zone": "대구/경북",
     "region": "안동시",
     "name": "안동호반자연휴양림",
@@ -2380,7 +2397,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 141,
+    "id": 142,
     "zone": "대구/경북",
     "region": "영양군",
     "name": "영양에코둥지",
@@ -2397,7 +2414,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 142,
+    "id": 143,
     "zone": "대구/경북",
     "region": "영천시",
     "name": "보현산자연휴양림",
@@ -2414,7 +2431,7 @@
     "recommendedRoomMemo": "4인실\n→ 숲속의집 15~19호\n→ 평일 30,000 / 주말 50,000\n\n추천\n→ 16호, 17호 (산 전망)"
   },
   {
-    "id": 143,
+    "id": 144,
     "zone": "대구/경북",
     "region": "영천시",
     "name": "운주산승마자연휴양림",
@@ -2431,7 +2448,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 144,
+    "id": 145,
     "zone": "대구/경북",
     "region": "울진군",
     "name": "구수곡자연휴양림",
@@ -2448,7 +2465,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 145,
+    "id": 146,
     "zone": "대구/경북",
     "region": "의성군",
     "name": "금봉자연휴양림",
@@ -2465,7 +2482,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 146,
+    "id": 147,
     "zone": "대구/경북",
     "region": "청도군",
     "name": "청도자연휴양림",
@@ -2482,7 +2499,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 147,
+    "id": 148,
     "zone": "대구/경북",
     "region": "청송군",
     "name": "청송자연휴양림",
@@ -2499,7 +2516,7 @@
     "recommendedRoomMemo": "2인실 (109㎡)\n→ 느티나무 01호\n→ 평일 150,000 / 주말 200,000\n\n4인실 (73㎡)\n→ 수달래 02호\n→ 평일 150,000 / 주말 200,000\n\n특징\n→ 2인실과 4인실 가격 동일"
   },
   {
-    "id": 148,
+    "id": 149,
     "zone": "대구/경북",
     "region": "칠곡군",
     "name": "송정자연휴양림",
@@ -2516,7 +2533,7 @@
     "recommendedRoomMemo": "6인실\n→ 느티나무, 너도밤나무, 소나무, 물푸레나무, 은행나무\n→ 평일 100,000 / 주말 150,000\n\n12인실\n→ 산수유\n→ 평일 160,000 / 주말 260,000\n\n추천\n→ 은행나무 (가장 안쪽 위치)"
   },
   {
-    "id": 149,
+    "id": 150,
     "zone": "대구/경북",
     "region": "칠곡군",
     "name": "팔공산금화자연휴양림",
@@ -2533,7 +2550,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 150,
+    "id": 151,
     "zone": "대구/경북",
     "region": "포항시북구",
     "name": "비학산자연휴양림",
@@ -2550,7 +2567,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 151,
+    "id": 152,
     "zone": "부산/경남",
     "region": "거제시",
     "name": "거제자연휴양림",
@@ -2567,7 +2584,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 152,
+    "id": 153,
     "zone": "부산/경남",
     "region": "거창군",
     "name": "거창산림레포츠파크",
@@ -2584,7 +2601,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 153,
+    "id": 154,
     "zone": "부산/경남",
     "region": "거창군",
     "name": "거창항노화힐링랜드",
@@ -2601,7 +2618,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 154,
+    "id": 155,
     "zone": "부산/경남",
     "region": "거창군",
     "name": "금원산자연휴양림",
@@ -2618,7 +2635,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 155,
+    "id": 156,
     "zone": "부산/경남",
     "region": "고성군",
     "name": "갈모봉 자연휴양림",
@@ -2635,7 +2652,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 156,
+    "id": 157,
     "zone": "부산/경남",
     "region": "밀양시",
     "name": "밀양 도래재자연휴양림",
@@ -2652,7 +2669,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 157,
+    "id": 158,
     "zone": "부산/경남",
     "region": "사천시",
     "name": "사천 케이블카 자연휴양림",
@@ -2669,7 +2686,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 158,
+    "id": 159,
     "zone": "부산/경남",
     "region": "산청군",
     "name": "산청한방자연휴양림",
@@ -2686,7 +2703,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 159,
+    "id": 160,
     "zone": "부산/경남",
     "region": "양산시",
     "name": "대운산자연휴양림",
@@ -2703,7 +2720,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 160,
+    "id": 161,
     "zone": "부산/경남",
     "region": "의령군",
     "name": "자굴산 자연휴양림",
@@ -2720,7 +2737,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 161,
+    "id": 162,
     "zone": "부산/경남",
     "region": "진주시",
     "name": "진주 월아산 자연휴양림",
@@ -2737,7 +2754,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 162,
+    "id": 163,
     "zone": "부산/경남",
     "region": "창녕군",
     "name": "화왕산자연휴양림",
@@ -2754,7 +2771,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 163,
+    "id": 164,
     "zone": "부산/경남",
     "region": "하동군",
     "name": "구재봉자연휴양림",
@@ -2771,7 +2788,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 164,
+    "id": 165,
     "zone": "부산/경남",
     "region": "하동군",
     "name": "하동편백자연휴양림",
@@ -2788,7 +2805,7 @@
     "recommendedRoomMemo": "6인실\n→ 103호 힐링의방, 104호 치유의방\n→ 평일 80,000 / 주말 110,000"
   },
   {
-    "id": 165,
+    "id": 166,
     "zone": "부산/경남",
     "region": "함양군",
     "name": "대봉산자연휴양림",
@@ -2805,7 +2822,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 166,
+    "id": 167,
     "zone": "부산/경남",
     "region": "함양군",
     "name": "대봉캠핑랜드",
@@ -2822,7 +2839,7 @@
     "recommendedRoomMemo": "4인실\n→ 대나무 4,5호\n→ 평일 70,000 / 주말 100,000\n\n4인실\n→ 불로초 2,3호\n→ 평일 80,000 / 주말 120,000\n\n4인실\n→ 솔향기 1,2호\n→ 평일 70,000 / 주말 100,000\n\n8인실\n→ 별사랑 1호\n→ 평일 120,000 / 주말 180,000\n\n추천\n→ 대나무 4,5호 (전망 1순위)\n\n위치 특징\n→ 불로초둥지 (숲속놀이터 근처)"
   },
   {
-    "id": 167,
+    "id": 168,
     "zone": "부산/경남",
     "region": "함양군",
     "name": "산삼자연휴양림",
@@ -2839,7 +2856,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 168,
+    "id": 169,
     "zone": "부산/경남",
     "region": "함양군",
     "name": "용추자연휴양림",
@@ -2856,7 +2873,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 169,
+    "id": 170,
     "zone": "부산/경남",
     "region": "합천군",
     "name": "오도산자연휴양림",
@@ -2873,7 +2890,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 170,
+    "id": 171,
     "zone": "제주",
     "region": "서귀포시",
     "name": "붉은오름자연휴양림",
@@ -2890,7 +2907,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 171,
+    "id": 172,
     "zone": "제주",
     "region": "서귀포시",
     "name": "서귀포자연휴양림",
@@ -2907,7 +2924,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 172,
+    "id": 173,
     "zone": "제주",
     "region": "제주시",
     "name": "교래자연휴양림",
@@ -2924,7 +2941,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 173,
+    "id": 174,
     "zone": "제주",
     "region": "제주시",
     "name": "제주절물자연휴양림",
@@ -2941,7 +2958,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 174,
+    "id": 175,
     "zone": "공통",
     "region": "전국",
     "name": "생태탐방원",
@@ -2958,7 +2975,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 175,
+    "id": 176,
     "zone": "공통",
     "region": "전국",
     "name": "국립공원야영장",
@@ -2975,7 +2992,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 176,
+    "id": 177,
     "zone": "부산/경남",
     "region": "양산시",
     "name": "황산캠핑장",
@@ -2992,7 +3009,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 177,
+    "id": 178,
     "zone": "부산/경남",
     "region": "양산시",
     "name": "황산캠핑장",
@@ -3009,7 +3026,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 178,
+    "id": 179,
     "zone": "부산/경남",
     "region": "부산시영도구",
     "name": "영도 마리노 오토캠핑장",
@@ -3026,7 +3043,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 179,
+    "id": 180,
     "zone": "부산/경남",
     "region": "부산시영도구",
     "name": "영도 마리노 오토캠핑장",
@@ -3043,7 +3060,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 180,
+    "id": 181,
     "zone": "부산/경남",
     "region": "합천군",
     "name": "황매산숲속야영장",
@@ -3060,7 +3077,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 181,
+    "id": 182,
     "zone": "부산/경남",
     "region": "양산시",
     "name": "숲애서",
@@ -3077,7 +3094,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 182,
+    "id": 183,
     "zone": "강원",
     "region": "동해시",
     "name": "망상오토캠핑리조트",
@@ -3094,7 +3111,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 183,
+    "id": 184,
     "zone": "부산/경남",
     "region": "하동군",
     "name": "최참판댁한옥호텔",
@@ -3111,7 +3128,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 184,
+    "id": 185,
     "zone": "광주/전남",
     "region": "순천시",
     "name": "정원워케이션",
@@ -3128,7 +3145,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 185,
+    "id": 186,
     "zone": "부산/경남",
     "region": "함양군",
     "name": "지리산생태체험단지",
@@ -3145,7 +3162,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 186,
+    "id": 187,
     "zone": "광주/전남",
     "region": "구례군",
     "name": "지리산정원",
@@ -3162,7 +3179,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 187,
+    "id": 188,
     "zone": "강원",
     "region": "삼척시",
     "name": "맹방비치캠핑장",
@@ -3179,7 +3196,7 @@
     "recommendedRoomMemo": "캠핑하우스 C1 (2명/4명)\n캠핑하우스 C2 (2명/4명)\n캠핑하우스 C3 (2명/4명)\n\n비수기 평일 80,000원 / 주말 100,000원\n성수기 평일 120,000원 / 주말 120,000원\n동절기 평일 60,000원 / 주말 80,000원"
   },
   {
-    "id": 188,
+    "id": 189,
     "zone": "강원",
     "region": "강릉시",
     "name": "연곡해변캠핑장",
@@ -3196,7 +3213,7 @@
     "recommendedRoomMemo": "고급형 카라반 H존\n콘도형 (H-901) 4인 차량1대\n비수기 평일 120,000원 / 주말 180,000원\n준성수기 180,000원 / 성수기 220,000원\n\n콘도형 (H-902) 6인 차량1대\n비수기 평일 160,000원 / 주말 220,000원\n준성수기 220,000원 / 성수기 270,000원\n\n호텔형 (H-903) 6인 차량1대 (취사불가)\n비수기 평일 150,000원 / 주말 210,000원\n준성수기 210,000원 / 성수기 260,000원"
   },
   {
-    "id": 189,
+    "id": 190,
     "zone": "대구/경북",
     "region": "영덕군",
     "name": "고래불국민야영장",
@@ -3213,7 +3230,7 @@
     "recommendedRoomMemo": "펜션형숙박시설\n10인용 \n성수기 200,000 / 200,000 \n비성수기 140,000 / 170,000\n8인용\n성수기 180,000 / 180,000 \n비성수기 120,000 / 150,000\n6인용\n성수기 150,000 / 150,000 \n비성수기 100,000 / 120,000"
   },
   {
-    "id": 190,
+    "id": 191,
     "zone": "대구/경북",
     "region": "경주시",
     "name": "오류캠핑장",
@@ -3230,7 +3247,7 @@
     "recommendedRoomMemo": "카라반\n\n일반형(1~18호)\n비수기 60,000 / 100,000\n준성수기 80,000 / 120,000\n성수기 150,000 / 150,000\n\n대형(19~28호)\n비수기 80,000 / 120,000\n준성수기 100,000 / 150,000\n성수기 180,000 / 180,000"
   },
   {
-    "id": 191,
+    "id": 192,
     "zone": "부산/경남",
     "region": "울산시",
     "name": "대왕암공원캠핑장",
@@ -3247,7 +3264,7 @@
     "recommendedRoomMemo": ""
   },
   {
-    "id": 192,
+    "id": 193,
     "zone": "강원",
     "region": "삼척시",
     "name": "장호비치캠핑장",
@@ -3264,7 +3281,7 @@
     "recommendedRoomMemo": "컨테이너하우스(A동)\n성수기(7~8월) 240,000 / 240,000\n비수기 200,000 / 220,000\n동절기(11~2월) 180,000 / 200,000"
   },
   {
-    "id": 193,
+    "id": 194,
     "zone": "대구/경북",
     "region": "포항시 남구",
     "name": "창바우마을",
