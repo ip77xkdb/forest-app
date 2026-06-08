@@ -16,14 +16,22 @@ for i, row in df.iterrows():
         "name": row.get("시설명", ""),
         "facilityType": row.get("시설유형", ""),
         "operatorType": row.get("운영주체", ""),
+
+        # 예약 일정
         "firstComeRule": row.get("오픈규칙 (선착순)", ""),
+        "localFirstComeRule": row.get("지역주민 우선오픈", ""),
         "lotteryRule": row.get("오픈규칙 (추첨제)", ""),
         "lotteryTarget": row.get("추첨대상", ""),
         "lotteryResult": row.get("추첨발표", ""),
         "waitingOpen": row.get("미결제/대기예약 오픈", ""),
+
+        # 기타 정보
         "note": row.get("비고", ""),
         "homepage": row.get("홈페이지", ""),
-        "localPriorityPolicy": row.get("지역주민 우선예약정책", ""),
+
+        # 지역주민 우선 객실 = 일반 선착순 때 피해야 할 객실
+        "localPriorityPolicy": row.get("지역주민 우선객실", ""),
+
         "recommendedRoomMemo": row.get("추천객실메모", ""),
     })
 

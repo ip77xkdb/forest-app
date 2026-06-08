@@ -11,6 +11,7 @@ type AppRecord = {
   facilityType: string;
   operatorType: string;
   firstComeRule: string;
+  localFirstComeRule?: string;
   lotteryRule: string;
   lotteryTarget: string;
   lotteryResult: string;
@@ -21,7 +22,7 @@ type AppRecord = {
   recommendedRoomMemo: string;
 };
 
-type EventType = "선착순" | "추첨접수" | "추첨발표" | "미결제/대기예약";
+type EventType = "선착순" | "지역우선" | "추첨접수" | "추첨발표" | "미결제/대기예약";
 type ViewTab = "캘린더" | "타임라인" | "숙소검색";
 
 type CalendarEvent = AppRecord & {
@@ -69,6 +70,7 @@ type EventFilterOption = "전체" | EventType;
 const eventFilterOptions: EventFilterOption[] = [
   "전체",
   "선착순",
+  "지역우선",
   "추첨접수",
   "추첨발표",
   "미결제/대기예약",
@@ -360,6 +362,8 @@ function getEventTypeLabel(eventType: EventType) {
   switch (eventType) {
     case "선착순":
       return "선착순";
+    case "지역우선":
+      return "지역우선";
     case "추첨접수":
       return "추첨 접수";
     case "추첨발표":
@@ -378,10 +382,11 @@ function getOperatorOrder(operatorType: string) {
 }
 
 function getEventTypeOrder(eventType: EventType) {
-  if (eventType === "선착순") return 0;
-  if (eventType === "추첨접수") return 1;
-  if (eventType === "추첨발표") return 2;
-  if (eventType === "미결제/대기예약") return 3;
+  if (eventType === "지역우선") return 0;
+  if (eventType === "선착순") return 1;
+  if (eventType === "추첨접수") return 2;
+  if (eventType === "추첨발표") return 3;
+  if (eventType === "미결제/대기예약") return 4;
   return 9;
 }
 
@@ -429,6 +434,9 @@ function getEventTypeBadgeClass(eventType: EventType) {
   if (eventType === "선착순") {
     return "bg-sky-50 text-sky-700 ring-1 ring-sky-200";
   }
+  if (eventType === "지역우선") {
+    return "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200";
+  }
   if (eventType === "추첨접수") {
     return "bg-amber-50 text-amber-700 ring-1 ring-amber-200";
   }
@@ -450,6 +458,18 @@ function buildEventsForItem(item: AppRecord, year: number, monthIndex: number): 
       events.push({
         ...item,
         eventType: "선착순",
+        eventDate: g.date,
+        eventTime: g.time,
+      });
+    });
+  }
+
+  if (item.localFirstComeRule?.trim()) {
+    const generated = generateDatesFromRule(item.localFirstComeRule, year, monthIndex);
+    generated.forEach((g) => {
+      events.push({
+        ...item,
+        eventType: "지역우선",
         eventDate: g.date,
         eventTime: g.time,
       });
@@ -543,6 +563,7 @@ function buildEventsForItem(item: AppRecord, year: number, monthIndex: number): 
 function getRuleSummary(item: AppRecord) {
   const lines = [
     item.firstComeRule ? `선착순 · ${item.firstComeRule}` : "",
+    item.localFirstComeRule ? `지역우선 · ${item.localFirstComeRule}` : "",
     item.lotteryRule ? `추첨접수 · ${item.lotteryRule}` : "",
     item.lotteryResult ? `추첨발표 · ${item.lotteryResult}` : "",
     item.waitingOpen ? `미결제/대기 · ${item.waitingOpen}` : "",
@@ -710,6 +731,7 @@ export default function Home() {
         item.region,
         item.zone,
         item.firstComeRule,
+        item.localFirstComeRule,
         item.lotteryRule,
         item.lotteryTarget,
         item.lotteryResult,
@@ -751,6 +773,7 @@ export default function Home() {
       string,
       {
         선착순: number;
+        지역우선: number;
         추첨접수: number;
         추첨발표: number;
         "미결제/대기예약": number;
@@ -761,6 +784,7 @@ export default function Home() {
       if (!map[e.eventDate]) {
         map[e.eventDate] = {
           선착순: 0,
+          지역우선: 0,
           추첨접수: 0,
           추첨발표: 0,
           "미결제/대기예약": 0,
@@ -1237,6 +1261,7 @@ export default function Home() {
                         const key = formatDateKey(date);
                         const typeCounts = eventTypeCountByDate[key] || {
                           선착순: 0,
+                          지역우선: 0,
                           추첨접수: 0,
                           추첨발표: 0,
                           "미결제/대기예약": 0,
@@ -1293,6 +1318,15 @@ export default function Home() {
                                     className="flex w-full max-w-[108px] items-center justify-center rounded-full bg-sky-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-sky-700 md:h-[20px] md:text-[11px]"
                                   >
                                     {typeCounts.선착순}
+                                  </span>
+                                </div>
+
+                                <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
+                                  <span
+                                    style={{ visibility: typeCounts.지역우선 === 0 ? "hidden" : "visible" }}
+                                    className="flex w-full max-w-[108px] items-center justify-center rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-emerald-700 md:h-[20px] md:text-[11px]"
+                                  >
+                                    {typeCounts.지역우선}
                                   </span>
                                 </div>
 
