@@ -435,7 +435,7 @@ function getEventTypeBadgeClass(eventType: EventType) {
     return "bg-sky-50 text-sky-700 ring-1 ring-sky-200";
   }
   if (eventType === "지역우선") {
-    return "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200";
+    return "bg-teal-50 text-teal-700 ring-1 ring-teal-200";
   }
   if (eventType === "추첨접수") {
     return "bg-amber-50 text-amber-700 ring-1 ring-amber-200";
@@ -1223,7 +1223,7 @@ export default function Home() {
                       선착순
                     </span>
 
-                    <span className="inline-flex rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 ring-1 ring-emerald-200">
+                    <span className="inline-flex rounded-full bg-teal-50 px-2 py-0.5 text-[11px] font-bold text-teal-700 ring-1 ring-teal-200">
                       지역우선
                     </span>
 
@@ -1328,7 +1328,7 @@ export default function Home() {
                                 <div className="flex h-[17px] w-full items-center justify-center md:h-[20px]">
                                   <span
                                     style={{ visibility: typeCounts.지역우선 === 0 ? "hidden" : "visible" }}
-                                    className="flex w-full max-w-[108px] items-center justify-center rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-emerald-700 md:h-[20px] md:text-[11px]"
+                                    className="flex w-full max-w-[108px] items-center justify-center rounded-full bg-teal-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-teal-700 md:h-[20px] md:text-[11px]"
                                   >
                                     {typeCounts.지역우선}
                                   </span>
