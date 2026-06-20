@@ -48,7 +48,7 @@ type TimelineDateGroup = {
 
 const data = rawData as AppRecord[];
 
-const operatorOptions = ["전체", "국립", "공립"];
+const operatorOptions = ["전체", "국립", "국립공원", "공립", "지자체"];
 const facilityOptions = ["전체", "자연휴양림", "생태탐방원", "캠핑장", "기타숙소"];
 const zoneOptions = [
   "전체",
