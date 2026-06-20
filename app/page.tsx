@@ -1619,10 +1619,20 @@ export default function Home() {
 
                   <button
                     onClick={closeModal}
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 text-xl font-semibold text-stone-600 transition hover:bg-stone-200"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 text-stone-600 transition hover:bg-stone-200"
                     aria-label="닫기"
                   >
-                    ×
+                    <svg
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      className="h-4 w-4"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 5l10 10M15 5L5 15" />
+                    </svg>
                   </button>
                 </div>
 
@@ -1876,10 +1886,20 @@ export default function Home() {
 
                       <button
                         onClick={closeGroupDetail}
-                        className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 text-xl font-semibold text-stone-600"
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 text-stone-600"
                         aria-label="닫기"
                       >
-                        ×
+                        <svg
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          className="h-4 w-4"
+                          aria-hidden="true"
+                        >
+                          <path d="M5 5l10 10M15 5L5 15" />
+                        </svg>
                       </button>
                     </div>
 
