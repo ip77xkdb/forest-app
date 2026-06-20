@@ -1223,6 +1223,10 @@ export default function Home() {
                       선착순
                     </span>
 
+                    <span className="inline-flex rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 ring-1 ring-emerald-200">
+                      지역우선
+                    </span>
+
                     <span className="inline-flex rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-bold text-amber-700 ring-1 ring-amber-200">
                       추첨접수
                     </span>
