@@ -49,7 +49,7 @@ type TimelineDateGroup = {
 const data = rawData as AppRecord[];
 
 const operatorOptions = ["전체", "국립", "공립"];
-const facilityOptions = ["전체", "자연휴양림", "생태탐방원", "캠핑장", "야영장"];
+const facilityOptions = ["전체", "자연휴양림", "생태탐방원", "캠핑장", "기타숙소"];
 const zoneOptions = [
   "전체",
   "서울/인천/경기",
