@@ -231,7 +231,7 @@
     "note": "6주차",
     "homepage": "https://www.foresttrip.go.kr/indvz/main.do?hmpgId=0113",
     "localPriorityPolicy": "",
-    "recommendedRoomMemo": ""
+    "recommendedRoomMemo": "부엉이,비둘기 신축\n8인실\n평일 98,000원 / 주말 173,000원"
   },
   {
     "id": 14,
@@ -537,7 +537,7 @@
     "note": "6주차",
     "homepage": "https://www.foresttrip.go.kr/indvz/main.do?hmpgId=0189",
     "localPriorityPolicy": "",
-    "recommendedRoomMemo": ""
+    "recommendedRoomMemo": "바다향기2~7 6인실\n평일 75,000원 / 주말 134,000원\n바다향기8~9 10인실 \n평일 124,000원 / 주말 208,000원"
   },
   {
     "id": 31,
@@ -871,14 +871,14 @@
     "facilityType": "자연휴양림",
     "operatorType": "공립",
     "firstComeRule": "",
-    "localFirstComeRule": "",
+    "localFirstComeRule": "매월 01일 09시",
     "lotteryRule": "매월 01일 09시 ~ 04일 23시",
     "lotteryTarget": "",
     "lotteryResult": "",
     "waitingOpen": "",
     "note": "",
     "homepage": "https://www.foresttrip.go.kr/indvz/main.do?hmpgId=ID02030019",
-    "localPriorityPolicy": "",
+    "localPriorityPolicy": "산림휴양관 1실(굴참나무 6인실)\n숲속의집 2실(달 4인실, 하늘 4인실)",
     "recommendedRoomMemo": ""
   },
   {
@@ -943,7 +943,7 @@
     "facilityType": "자연휴양림",
     "operatorType": "공립",
     "firstComeRule": "매월 10일 14시",
-    "localFirstComeRule": "매월 07일 14시",
+    "localFirstComeRule": "매월 01일 09시",
     "lotteryRule": "",
     "lotteryTarget": "",
     "lotteryResult": "",
@@ -979,14 +979,14 @@
     "facilityType": "자연휴양림",
     "operatorType": "공립",
     "firstComeRule": "",
-    "localFirstComeRule": "",
+    "localFirstComeRule": "매월 01일 00시",
     "lotteryRule": "매월 01일 00시 ~ 02일 23시59분",
     "lotteryTarget": "",
     "lotteryResult": "매월 03일 11시",
     "waitingOpen": "매월 03일 14시",
     "note": "",
     "homepage": "https://www.foresttrip.go.kr/indvz/main.do?hmpgId=ID02030092",
-    "localPriorityPolicy": "",
+    "localPriorityPolicy": "휴양림 시설의 50% (대상시설 격월 적용)",
     "recommendedRoomMemo": ""
   },
   {
@@ -1051,7 +1051,7 @@
     "facilityType": "자연휴양림",
     "operatorType": "공립",
     "firstComeRule": "매주 수요일 09시",
-    "localFirstComeRule": "",
+    "localFirstComeRule": "매월 01일 09시",
     "lotteryRule": "",
     "lotteryTarget": "",
     "lotteryResult": "",
@@ -1455,7 +1455,7 @@
     "note": "(6주차 화요일까지 1주일치)",
     "homepage": "https://www.foresttrip.go.kr/indvz/main.do?hmpgId=ID02030009",
     "localPriorityPolicy": "",
-    "recommendedRoomMemo": "정감록명당체험마을\n물고기자리4인 평일 126,000원 / 주말 180,000원"
+    "recommendedRoomMemo": "정감록명당체험마을\n염소자리4인, 궁수자리4인(산전망좋음)\n물고기자리4인(프라이빗함) \n평일 126,000원 / 주말 180,000원"
   },
   {
     "id": 82,
@@ -1491,7 +1491,7 @@
     "note": "(다음월 선착순)",
     "homepage": "https://www.foresttrip.go.kr/indvz/main.do?hmpgId=ID02030035",
     "localPriorityPolicy": "",
-    "recommendedRoomMemo": ""
+    "recommendedRoomMemo": "배석대4인(전망좋음)\n평일 180,000원 / 주말 180,000원"
   },
   {
     "id": 84,
